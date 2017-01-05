@@ -15,7 +15,8 @@
     <string name="title_image_folder">Albums</string>
     <string name="text_all_picture">All picture</string>
     <string name="action_done">Done</string>
-    <string name="gallely">Gallely</string>
     <string name="save_sucsess">save success file in saved_images folder</string>
     <string name="save_error">File not save</string>
+    <string name="text_photo_editor">Photo Editor</string>
+    <string name="text_video">Video Maker</string>
 </resources>

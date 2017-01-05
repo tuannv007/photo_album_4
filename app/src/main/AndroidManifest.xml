@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.framgia.photoeditor"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="com.framgia.photoeditor"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
@@ -19,7 +18,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.imagefolder.ImageFolderActivity"/>
-        <activity android:name=".ui.main.MainActivity"/>
+        <activity android:name=".ui.editimage.EditImageActivity"/>
         <activity android:name=".ui.pickimage.ImageSelectorActivity"/>
+        <activity android:name=".ui.activity.MainActivity"/>
     </application>
+
 </manifest>

@@ -30,4 +30,8 @@ public class Constant {
         public static final int DATA_PICK_MULTIPLE_IMAGE = 1;
         public static final int DATA_PICK_SINGLE_IMAGE = 2;
     }
+
+    public class Font {
+        public static final String FONT_BSC = "fonts/font_bsc.ttf";
+    }
 }

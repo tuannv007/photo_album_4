@@ -1,4 +1,4 @@
-package com.framgia.photoeditor.ui.main;
+package com.framgia.photoeditor.ui.editimage;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
