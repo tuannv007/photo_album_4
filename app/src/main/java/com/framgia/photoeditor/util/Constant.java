@@ -22,6 +22,10 @@ public class Constant {
     public static final String FOLDER_NAME = "/saved_images";
     public static final int REQUEST_CODE_CAMERA = 1000;
 
+    public class Bundle {
+        public static final String BUNDLE_PATH_IMAGE = "BUNDLE_PATH_IMAGE";
+    }
+
     public class ImageSelector {
         public static final int SPAN_COUNT = 3;
         public static final String BUNDLE_TYPE_PICK_IMAGE = "BUNDLE_TYPE_PICK_IMAGE";

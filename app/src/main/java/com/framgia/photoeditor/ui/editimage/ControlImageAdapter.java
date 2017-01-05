@@ -59,9 +59,9 @@ public class ControlImageAdapter
     }
 
     public class ControlViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.image_item_control)
+        @BindView(R.id.image_feature)
         ImageView mImage;
-        @BindView(R.id.text_item_control)
+        @BindView(R.id.text_feature)
         TextView mTitle;
 
         public ControlViewHolder(View itemView) {

@@ -1,8 +1,10 @@
 package com.framgia.photoeditor.util;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Environment;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,4 +66,10 @@ public class Util {
         DateFormat date = new SimpleDateFormat("HHmmss", Locale.getDefault());
         return date.format(currentLocalTime);
     }
+
+    public static void showToast(Context context, int id) {
+        if (context != null) Toast.makeText(context, id, Toast.LENGTH_SHORT).show();
+    }
 }
+
+
