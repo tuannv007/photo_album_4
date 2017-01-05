@@ -1,32 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer-array name="image_control">
-        <item>@drawable/ic_camera</item>
-        <item>@drawable/ic_gallely</item>
+        <item>@drawable/ic_effect</item>
+        <item>@drawable/ic_color</item>
+        <item>@drawable/ic_adjust</item>
         <item>@drawable/ic_crop</item>
-        <item>@drawable/ic_black_white</item>
-        <item>@drawable/ic_chage_color</item>
-        <item>@drawable/ic_change_movies</item>
-        <item>@drawable/ic_edit_hue</item>
-        <item>@drawable/ic_effects</item>
-        <item>@drawable/ic_scale</item>
-        <item>@drawable/ic_highlights</item>
-        <item>@drawable/ic_light</item>
-        <item>@drawable/ic_merge_image</item>
+        <item>@drawable/ic_highlight</item>
+        <item>@drawable/ic_orientation</item>
+        <item>@drawable/ic_gamma</item>
     </integer-array>
     <string-array name="title_control">
-        <item>@string/camera</item>
-        <item>@string/gallery</item>
-        <item>@string/crop_image</item>
-        <item>@string/black_white</item>
-        <item>@string/change_color</item>
-        <item>@string/change_movies</item>
-        <item>@string/edit_hue</item>
-        <item>@string/effects</item>
-        <item>@string/scale</item>
-        <item>@string/highlight</item>
-        <item>@string/light</item>
-        <item>@string/merge</item>
+        <item>@string/feature_effect</item>
+        <item>@string/feature_color</item>
+        <item>@string/feature_adjust</item>
+        <item>@string/feature_crop</item>
+        <item>@string/feature_highlight</item>
+        <item>@string/feature_orientation</item>
+        <item>@string/feature_gamma</item>
     </string-array>
-    <string name="scale">Scale</string>
+
 </resources>

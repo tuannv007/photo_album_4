@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_grey_200"
     android:orientation="vertical"
     tools:context=".ui.editimage.EditImageActivity">
 
@@ -15,10 +16,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_control"
+    <include
+        layout="@layout/partial_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_60"
-        android:background="@color/color_teal_500"/>
-
+        android:layout_height="wrap_content"/>
 </LinearLayout>
