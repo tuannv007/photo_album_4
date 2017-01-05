@@ -5,8 +5,9 @@ package com.framgia.photoeditor.util;
  * <></>
  */
 public class Constant {
-    public class ImageFolder {
+    public class Request {
         public static final int REQUEST_SELECTOR_IMAGE = 1;
+        public static final int REQUEST_CODE_CAMERA = 1000;
     }
 
     public static final String DATA_IMAGE_JPEG = "image/jpeg";
@@ -20,10 +21,15 @@ public class Constant {
     public static final int OPEN_CAMERA = 0;
     public static final int BLACK_WHITE_IMAGE = 3;
     public static final String FOLDER_NAME = "/saved_images";
-    public static final int REQUEST_CODE_CAMERA = 1000;
+
+    public class Size {
+        public static final int DATA_RADIUS = 200;
+        public static final int DATA_SIZE_SEEKBAR = 100;
+    }
 
     public class Bundle {
         public static final String BUNDLE_PATH_IMAGE = "BUNDLE_PATH_IMAGE";
+        public static final String BUNDLE_BITMAP = "BUNDLE_BITMAP";
     }
 
     public class ImageSelector {
@@ -38,5 +44,25 @@ public class Constant {
     public class Font {
         public static final String FONT_BSC = "fonts/font_bsc.ttf";
     }
+
     public static final int CHANGE_COLOR = 1;
+
+    public enum Feature {
+        FEATURE_EFFECT(0),
+        FEATURE_COLOR(1),
+        FEATURE_ADJUST(2),
+        FEATURE_CROP(3),
+        FEATURE_HIGHLIGHT(4),
+        FEATURE_ORIENTATION(5),
+        FEATURE_GAMMA(6);
+        private int mPosition;
+
+        Feature(int i) {
+            mPosition = i;
+        }
+
+        public void setPosition(int position) {
+            this.mPosition = position;
+        }
+    }
 }

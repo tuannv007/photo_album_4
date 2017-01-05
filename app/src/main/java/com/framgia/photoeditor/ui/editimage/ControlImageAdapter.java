@@ -16,9 +16,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by tuanbg on 1/5/17.
+ * <></>
  */
 public class ControlImageAdapter
     extends RecyclerView.Adapter<ControlImageAdapter.ControlViewHolder> {
@@ -54,11 +56,7 @@ public class ControlImageAdapter
         return mListControl == null ? 0 : mListControl.size();
     }
 
-    public interface OnItemClickListener {
-        void onItemClickListener(View v, int position);
-    }
-
-    public class ControlViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ControlViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.image_feature)
         ImageView mImage;
         @BindView(R.id.text_feature)
@@ -67,7 +65,6 @@ public class ControlImageAdapter
         public ControlViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mImage.setOnClickListener(this);
         }
 
         private void bind(int position) {
@@ -76,10 +73,14 @@ public class ControlImageAdapter
             mImage.setImageResource(controls.getImage());
         }
 
-        @Override
-        public void onClick(View v) {
+        @OnClick(R.id.linear_feature)
+        void clickFeature() {
             if (mOnItemClickListener == null) return;
-            mOnItemClickListener.onItemClickListener(v, getAdapterPosition());
+            mOnItemClickListener.onItemClickListener(getAdapterPosition());
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClickListener(int position);
     }
 }

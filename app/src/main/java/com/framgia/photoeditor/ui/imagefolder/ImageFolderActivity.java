@@ -19,11 +19,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.framgia.photoeditor.util.Constant.ImageFolder.REQUEST_SELECTOR_IMAGE;
 import static com.framgia.photoeditor.util.Constant.ImageSelector.BUNDLE_LIST_IMAGE;
 import static com.framgia.photoeditor.util.Constant.ImageSelector.BUNDLE_TYPE_PICK_IMAGE;
 import static com.framgia.photoeditor.util.Constant.ImageSelector.DATA_PICK_MULTIPLE_IMAGE;
 import static com.framgia.photoeditor.util.Constant.ImageSelector.DATA_PICK_SINGLE_IMAGE;
+import static com.framgia.photoeditor.util.Constant.Request.REQUEST_SELECTOR_IMAGE;
 
 public class ImageFolderActivity extends AppCompatActivity
     implements ImageFolderAdapter.EventImageFolder, ImageFolderContract.View {
