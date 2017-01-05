@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.LocalImageFolder;
+import com.framgia.photoeditor.ui.previewimage.PreviewImageActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -116,5 +118,10 @@ public class ImageSelectorActivity extends AppCompatActivity
         intent.putExtras(bundle);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    public void pickPreviewImage(ArrayList<String> pathImages, int position) {
+        startActivity(PreviewImageActivity.getPreviewImageIntent(this, pathImages, position));
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/root_item_list_feature"
+    android:id="@+id/linear_feature"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_80"
     android:layout_height="@dimen/dp_80"
