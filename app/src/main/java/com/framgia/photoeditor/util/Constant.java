@@ -1,8 +1,7 @@
 package com.framgia.photoeditor.util;
 
 /**
- * Created by Nhahv on 1/5/2017.
- * <></>
+ * Created by tuanbg on 1/5/17.
  */
 public class Constant {
     public static final String DATA_IMAGE_JPEG = "image/jpeg";
