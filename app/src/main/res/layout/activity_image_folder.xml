@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/activity_folder_picture"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/dp_16"
-    android:paddingLeft="@dimen/dp_16"
-    android:paddingRight="@dimen/dp_16"
-    android:paddingTop="@dimen/dp_16"
+    android:orientation="vertical"
     tools:context=".ui.activity.ImageFolderActivity">
 
-</RelativeLayout>
+    <include layout="@layout/partial_toolbar"/>
+
+    <include layout="@layout/partial_recycler_view"/>
+</LinearLayout>
