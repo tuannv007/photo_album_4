@@ -29,12 +29,12 @@ public class LocalImage {
         return mFolderName;
     }
 
-    public String getFolderPath() {
-        return mFolderPath;
-    }
-
     public void setFolderName(String folderName) {
         this.mFolderName = folderName;
+    }
+
+    public String getFolderPath() {
+        return mFolderPath;
     }
 
     public String getPathImage() {
