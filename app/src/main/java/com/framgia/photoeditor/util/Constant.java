@@ -11,4 +11,9 @@ public class Constant {
     public static final String DATA_JPG = ".jpg";
     public static final String DATA_PNG = ".png";
     public static final String DATA_JPEG = ".jpeg";
+    public static final String DATA_CAMERA = "data";
+    public static final int OPEN_CAMERA = 0;
+    public static final int BLACK_WHITE_IMAGE = 3;
+    public static final String FOLDER_NAME = "/saved_images";
+    public static final int REQUEST_CODE_CAMERA = 1000;
 }
