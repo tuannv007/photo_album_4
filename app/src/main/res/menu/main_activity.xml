@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_done"
-        android:icon="@drawable/ic_yes"
-        android:title=""
-        app:showAsAction="ifRoom"
-        tools:ignore="AppCompatResource"/>
+        android:icon="@drawable/ic_done_white_24dp"
+        android:title="@string/action_done"
+        app:showAsAction="ifRoom"/>
 </menu>

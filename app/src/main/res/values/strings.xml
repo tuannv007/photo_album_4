@@ -11,5 +11,8 @@
     <string name="highlight">Highlight</string>
     <string name="change_movies">Change Movies</string>
     <string name="camera">Camera</string>
-    <string name="gallely">Gallely</string>
+    <string name="gallery">Gallery</string>
+    <string name="title_image_folder">Albums</string>
+    <string name="text_all_picture">All picture</string>
+    <string name="action_done">Done</string>
 </resources>
