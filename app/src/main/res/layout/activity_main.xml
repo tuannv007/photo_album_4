@@ -1,31 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/activity_main"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.activity.MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_teal_500"/>
+    <include layout="@layout/partial_toolbar"/>
 
     <ImageView
         android:id="@+id/image_main_screen"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/recycler_control"
-        android:layout_below="@+id/toolbar"
-        android:layout_centerHorizontal="true"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_control"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_60"
-        android:layout_alignParentBottom="true"
         android:background="@color/color_teal_500"/>
 
-</RelativeLayout>
+</LinearLayout>

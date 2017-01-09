@@ -16,7 +16,7 @@
     </integer-array>
     <string-array name="title_control">
         <item>@string/camera</item>
-        <item>@string/gallely</item>
+        <item>@string/gallery</item>
         <item>@string/crop_image</item>
         <item>@string/black_white</item>
         <item>@string/change_color</item>
