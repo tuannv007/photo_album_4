@@ -1,9 +1,9 @@
-package com.framgia.photoeditor.ui.activity;
+package com.framgia.photoeditor.ui.main;
 
 import android.graphics.Bitmap;
 
-import com.framgia.photoeditor.BaseView;
 import com.framgia.photoeditor.data.model.Control;
+import com.framgia.photoeditor.ui.base.BaseView;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * Created by tuanbg on 1/9/17.
  */
 public interface MainContract {
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseView {
         void updateDataControl();
         List<Control> getListDataControl();
         void openCamera();

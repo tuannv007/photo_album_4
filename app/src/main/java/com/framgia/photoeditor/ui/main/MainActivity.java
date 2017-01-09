@@ -1,4 +1,4 @@
-package com.framgia.photoeditor.ui.activity;
+package com.framgia.photoeditor.ui.main;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.Control;
-import com.framgia.photoeditor.ui.adapter.ControlImageAdapter;
 import com.framgia.photoeditor.util.Constant;
 
 import java.util.ArrayList;
@@ -27,8 +26,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity
-    implements ControlImageAdapter.OnItemClickListener, MainContract.View {
+public class MainActivity extends AppCompatActivity implements MainContract.View,
+    ControlImageAdapter.OnItemClickListener {
     @BindView(R.id.image_main_screen)
     ImageView mImageMainScreen;
     @BindView(R.id.recycler_control)
@@ -95,7 +94,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void saveError() {
         Toast.makeText(getApplicationContext(),
-            getResources().getString(R.string.save_error),
+            getString(R.string.save_error),
             Toast.LENGTH_LONG).show();
     }
 
