@@ -7,4 +7,18 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="TextViewChangeColor">
+        <item name="android:layout_marginLeft">@dimen/dp_4</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">@dimen/dp_20</item>
+        <item name="android:layout_height">@dimen/dp_20</item>
+    </style>
+
+    <style name="SeekBarChangeColor">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:max">255</item>
+        <item name="android:progress">128</item>
+    </style>
 </resources>

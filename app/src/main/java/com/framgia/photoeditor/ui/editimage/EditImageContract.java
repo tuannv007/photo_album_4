@@ -2,6 +2,7 @@ package com.framgia.photoeditor.ui.editimage;
 
 import android.graphics.Bitmap;
 
+import com.framgia.photoeditor.ui.base.BasePresenter;
 import com.framgia.photoeditor.data.model.Control;
 import com.framgia.photoeditor.ui.base.BaseView;
 
@@ -20,9 +21,7 @@ public interface EditImageContract {
         void updateImgBlackWhite(Bitmap bitmap);
     }
 
-    interface Presenter {
-        boolean saveImage(Bitmap bitmap);
+    interface Presenter extends BasePresenter {
         void convertImgBlackWhite(Bitmap bitmap);
-        void handleSave(Bitmap bitmap);
     }
 }

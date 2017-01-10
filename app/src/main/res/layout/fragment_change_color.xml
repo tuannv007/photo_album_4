@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/image_change_color"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextViewChangeColor"
+            android:background="@android:color/holo_red_dark"/>
+
+        <SeekBar
+            android:id="@+id/seek_bar_color_red"
+            style="@style/SeekBarChangeColor"
+            android:thumb="@drawable/ic_thumb_red"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextViewChangeColor"
+            android:background="@android:color/holo_green_dark"/>
+
+        <SeekBar
+            android:id="@+id/seek_bar_color_green"
+            style="@style/SeekBarChangeColor"
+            android:thumb="@drawable/ic_thumb_green"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextViewChangeColor"
+            android:background="@android:color/holo_blue_dark"/>
+
+        <SeekBar
+            android:id="@+id/seek_bar_color_blue"
+            style="@style/SeekBarChangeColor"
+            android:thumb="@drawable/ic_thumb_blue"/>
+    </LinearLayout>
+</LinearLayout>

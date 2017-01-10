@@ -14,7 +14,7 @@ public class EditImagePresenter implements EditImageContract.Presenter {
 
     public EditImagePresenter(@NonNull EditImageContract.View mainView) {
         mView = mainView;
-        mainView.start();
+        mView.start();
     }
 
     @Override
