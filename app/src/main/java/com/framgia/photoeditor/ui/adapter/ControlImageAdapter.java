@@ -24,17 +24,24 @@ public class ControlImageAdapter
     extends RecyclerView.Adapter<ControlImageAdapter.ControlViewHolder> {
     private List<Control> mListControl = new ArrayList<>();
     private Context mContext;
+    private OnItemClickListener mOnItemClickListener;
+    private LayoutInflater mInflater;
 
-    public ControlImageAdapter(Context context, List<Control> listControl) {
-        mListControl = listControl;
+    public ControlImageAdapter(Context context, OnItemClickListener onItemClickListener) {
         mContext = context;
+        mInflater = LayoutInflater.from(context);
+        mOnItemClickListener = onItemClickListener;
+    }
+
+    public void setListControl(List<Control> controls) {
+        mListControl.clear();
+        mListControl.addAll(controls);
+        notifyDataSetChanged();
     }
 
     @Override
     public ControlViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.item_control_image, parent, false);
-        return new ControlViewHolder(itemView);
+        return new ControlViewHolder(mInflater.inflate(R.layout.item_control_image, parent, false));
     }
 
     @Override
@@ -47,7 +54,11 @@ public class ControlImageAdapter
         return mListControl == null ? 0 : mListControl.size();
     }
 
-    public class ControlViewHolder extends RecyclerView.ViewHolder {
+    public interface OnItemClickListener {
+        void onItemClickListener(View v, int position);
+    }
+
+    public class ControlViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.image_item_control)
         ImageView mImage;
         @BindView(R.id.text_item_control)
@@ -56,12 +67,19 @@ public class ControlImageAdapter
         public ControlViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            mImage.setOnClickListener(this);
         }
 
         private void bind(int position) {
             Control controls = mListControl.get(position);
             mTitle.setText(controls.getTitle() != null ? controls.getTitle() : "");
             mImage.setImageResource(controls.getImage());
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mOnItemClickListener == null) return;
+            mOnItemClickListener.onItemClickListener(v, getAdapterPosition());
         }
     }
 }
