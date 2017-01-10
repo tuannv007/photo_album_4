@@ -17,6 +17,7 @@ import java.util.List;
  * <></>
  */
 public class LocalImageLoader {
+    private static final String TAG = "LocalImageLoader";
     private static final String[] IMAGE_PROJECTION = {
         MediaStore.Images.Media.DATA,
         MediaStore.Images.Media.DISPLAY_NAME,
@@ -28,7 +29,7 @@ public class LocalImageLoader {
     private static final String[] SELECTION_ARGS =
         new String[]{Constant.DATA_IMAGE_JPEG, Constant.DATA_IMAGE_PNG};
 
-    public static List<LocalImage> getListImageExternal(Context context) {
+    public static List<LocalImage> getListImage(Context context) {
         List<LocalImage> listLocalImage = new ArrayList<>();
         Cursor cursor = context.getContentResolver().query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -57,7 +58,7 @@ public class LocalImageLoader {
 
     public static List<LocalImageFolder> getListImageFolder(Context context) {
         List<LocalImageFolder> listImageFolder = new ArrayList<>();
-        List<LocalImage> listImage = getListImageExternal(context);
+        List<LocalImage> listImage = getListImage(context);
         if (listImage.size() == 0) return listImageFolder;
         LocalImageFolder folder;
         for (LocalImage item : listImage) {
@@ -65,20 +66,21 @@ public class LocalImageLoader {
                 folder = new LocalImageFolder(item.getFolderName(), item.getFolderPath());
                 folder.getListImageOfFolder()
                     .addAll(getListFiles(new File(folder.getFolderPath())));
+                listImageFolder.add(folder);
             }
         }
         return listImageFolder;
     }
 
-    private static List<File> getListFiles(File parentDir) {
-        ArrayList<File> inFiles = new ArrayList<>();
+    private static List<String> getListFiles(File parentDir) {
+        List<String> inFiles = new ArrayList<>();
         File[] files = parentDir.listFiles();
         for (File file : files) {
             if (file.isDirectory()) inFiles.addAll(getListFiles(file));
             else if (file.getPath().toLowerCase().endsWith(Constant.DATA_JPG) ||
                 file.getPath().toLowerCase().endsWith(Constant.DATA_PNG) ||
                 file.getPath().toLowerCase().endsWith(Constant.DATA_JPEG)) {
-                inFiles.add(file);
+                inFiles.add(file.getPath());
             }
         }
         return inFiles;

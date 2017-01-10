@@ -17,7 +17,7 @@ public class LocalImage {
         mFolderPath = folderPath;
     }
 
-    public String getName() {
+    public String getFileName() {
         return mFileName;
     }
 

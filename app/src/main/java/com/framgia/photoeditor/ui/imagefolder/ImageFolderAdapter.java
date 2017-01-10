@@ -1,4 +1,4 @@
-package com.framgia.photoeditor.ui.adapter;
+package com.framgia.photoeditor.ui.imagefolder;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,16 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.LocalImageFolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Nhahv on 1/5/2017.
@@ -23,13 +25,20 @@ import butterknife.ButterKnife;
  */
 public class ImageFolderAdapter extends RecyclerView.Adapter<ImageFolderAdapter.ImageFolderHolder> {
     private Context mContext;
-    private List<LocalImageFolder> mListImageFolder;
+    private List<LocalImageFolder> mListImageFolder = new ArrayList<>();
     private LayoutInflater mInflater;
+    private EventImageFolder mEventImageFolder;
 
-    public ImageFolderAdapter(Context context, List<LocalImageFolder> folders) {
+    public ImageFolderAdapter(Context context, EventImageFolder eventImageFolder) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        mListImageFolder = folders;
+        mEventImageFolder = eventImageFolder;
+    }
+
+    public void setListImageFolder(List<LocalImageFolder> folders) {
+        mListImageFolder.clear();
+        mListImageFolder.addAll(folders);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -50,8 +59,10 @@ public class ImageFolderAdapter extends RecyclerView.Adapter<ImageFolderAdapter.
     public class ImageFolderHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.image_picture)
         ImageView mImagePicture;
-        @BindView(R.id.image_checked)
-        ImageView mImageChecked;
+        @BindView(R.id.text_name_folder)
+        TextView mTextFolderName;
+        @BindView(R.id.text_number_image)
+        TextView mTextNumberImage;
 
         public ImageFolderHolder(View itemView) {
             super(itemView);
@@ -62,11 +73,25 @@ public class ImageFolderAdapter extends RecyclerView.Adapter<ImageFolderAdapter.
             LocalImageFolder folder = mListImageFolder.get(position);
             if (folder != null) {
                 Glide.with(mContext)
-                    .load(folder.getListImageOfFolder().get(0).getPath())
-                    .thumbnail(1f)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .load(folder.getListImageOfFolder().get(0))
                     .into(mImagePicture);
+                mTextFolderName
+                    .setText(folder.getFolderName() != null ? folder.getFolderName() : "");
+                mTextNumberImage.setText(
+                    mContext.getString(R.string.text_number, folder.getListImageOfFolder().size()));
             }
         }
+
+        @OnClick(R.id.linear_folder)
+        void pickImageFolder() {
+            LocalImageFolder folder = mListImageFolder.get(getAdapterPosition());
+            if (mEventImageFolder != null && folder != null) {
+                mEventImageFolder.pickImageFolder(folder);
+            }
+        }
+    }
+
+    public interface EventImageFolder {
+        void pickImageFolder(LocalImageFolder imageFolder);
     }
 }

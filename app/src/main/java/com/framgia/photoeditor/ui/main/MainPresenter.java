@@ -1,4 +1,4 @@
-package com.framgia.photoeditor.ui.activity;
+package com.framgia.photoeditor.ui.main;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;

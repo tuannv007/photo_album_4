@@ -1,6 +1,8 @@
 package com.framgia.photoeditor.data.model;
 
-import java.io.File;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,15 +10,40 @@ import java.util.List;
  * Created by Nhahv on 12/19/2016.
  * <.
  */
-public class LocalImageFolder {
+public class LocalImageFolder implements Parcelable {
     private String mFolderName;
     private String mFolderPath;
-    private List<File> mListImageOfFolder = new ArrayList<>();
+    private List<String> mListImageOfFolder = new ArrayList<>();
+
+    public LocalImageFolder() {
+    }
 
     public LocalImageFolder(String folderName, String folderPath) {
-        this.mFolderName = folderName;
+        mFolderName = folderName;
         mFolderPath = folderPath;
     }
+
+    public LocalImageFolder(String folderName) {
+        mFolderName = folderName;
+    }
+
+    protected LocalImageFolder(Parcel in) {
+        mFolderName = in.readString();
+        mFolderPath = in.readString();
+        mListImageOfFolder = in.readArrayList(null);
+    }
+
+    public static final Creator<LocalImageFolder> CREATOR = new Creator<LocalImageFolder>() {
+        @Override
+        public LocalImageFolder createFromParcel(Parcel in) {
+            return new LocalImageFolder(in);
+        }
+
+        @Override
+        public LocalImageFolder[] newArray(int size) {
+            return new LocalImageFolder[size];
+        }
+    };
 
     public String getFolderPath() {
         return mFolderPath;
@@ -26,11 +53,19 @@ public class LocalImageFolder {
         return mFolderName;
     }
 
-    public List<File> getListImageOfFolder() {
+    public List<String> getListImageOfFolder() {
         return mListImageOfFolder;
     }
 
-    public void setListImageOfFolder(List<File> images) {
-        this.mListImageOfFolder = images;
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(mFolderName);
+        parcel.writeString(mFolderPath);
+        parcel.writeList(mListImageOfFolder);
     }
 }

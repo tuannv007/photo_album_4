@@ -1,4 +1,4 @@
-package com.framgia.photoeditor.ui.activity.splashscreen;
+package com.framgia.photoeditor.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.framgia.photoeditor.R;
-import com.framgia.photoeditor.ui.activity.MainActivity;
+import com.framgia.photoeditor.ui.main.MainActivity;
 import com.framgia.photoeditor.util.Constant;
 
 import butterknife.BindView;
