@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.LocalImageFolder;
+import com.framgia.photoeditor.ui.editimage.EditImageActivity;
 import com.framgia.photoeditor.ui.pickimage.ImageSelectorActivity;
 
 import java.util.ArrayList;
@@ -90,6 +91,7 @@ public class ImageFolderActivity extends AppCompatActivity
 
     @Override
     public void pickSingleImage(String string) {
+        startActivity(EditImageActivity.getEditImageIntent(this, string));
     }
 
     @Override

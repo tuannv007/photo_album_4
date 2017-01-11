@@ -1,6 +1,7 @@
 package com.framgia.photoeditor.ui.editimage;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -14,11 +15,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.Control;
 import com.framgia.photoeditor.util.Constant;
+import com.framgia.photoeditor.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,23 +28,40 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.framgia.photoeditor.util.Constant.Bundle.BUNDLE_PATH_IMAGE;
+
 public class EditImageActivity extends AppCompatActivity implements EditImageContract.View,
     ControlImageAdapter.OnItemClickListener {
     @BindView(R.id.image_main_screen)
-    ImageView mImageMainScreen;
-    @BindView(R.id.recycler_control)
-    RecyclerView mRecyclerControl;
+    ImageView mImageEdit;
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    private ControlImageAdapter mControlImageAdapter;
+    private ControlImageAdapter mAdapter;
     private EditImagePresenter mEditImagePresenter;
     private List<Control> mListControls = new ArrayList<>();
+    private String mPathImage;
+
+    public static Intent getEditImageIntent(Context context, String pathImage) {
+        Intent intent = new Intent(context, EditImageActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(BUNDLE_PATH_IMAGE, pathImage);
+        intent.putExtras(bundle);
+        return intent;
+    }
+
+    private void getDataFromIntent() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) mPathImage = bundle.getString(BUNDLE_PATH_IMAGE);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_image);
         ButterKnife.bind(this);
+        getDataFromIntent();
         mEditImagePresenter = new EditImagePresenter(this);
         updateDataControl();
     }
@@ -58,7 +77,7 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constant.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get(Constant.DATA_CAMERA);
-            mImageMainScreen.setImageBitmap(photo);
+            mImageEdit.setImageBitmap(photo);
         }
     }
 
@@ -69,8 +88,8 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
                 openCamera();
                 break;
             case Constant.BLACK_WHITE_IMAGE:
-                if (mImageMainScreen.getDrawable() == null) return;
-                Bitmap bitmap = ((BitmapDrawable) mImageMainScreen.getDrawable()).getBitmap();
+                if (mImageEdit.getDrawable() == null) return;
+                Bitmap bitmap = ((BitmapDrawable) mImageEdit.getDrawable()).getBitmap();
                 if (bitmap != null) mEditImagePresenter.convertImgBlackWhite(bitmap);
                 break;
             default:
@@ -86,35 +105,36 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
 
     @Override
     public void saveOnSuccess() {
-        Toast.makeText(getApplicationContext(),
-            getResources().getString(R.string.save_sucsess),
-            Toast.LENGTH_LONG).show();
+        Util.showToast(getApplicationContext(), R.string.save_sucsess);
     }
 
     @Override
     public void saveError() {
-        Toast.makeText(getApplicationContext(),
-            getString(R.string.save_error),
-            Toast.LENGTH_LONG).show();
+        Util.showToast(getApplicationContext(), R.string.save_error);
     }
 
     @Override
     public void updateImgBlackWhite(Bitmap bitmap) {
-        mImageMainScreen.setImageBitmap(bitmap);
+        mImageEdit.setImageBitmap(bitmap);
     }
 
     @Override
     public void start() {
         setSupportActionBar(mToolbar);
-        mControlImageAdapter = new ControlImageAdapter(getApplicationContext(), this);
-        mRecyclerControl.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager
+        mAdapter = new ControlImageAdapter(getApplicationContext(), this);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager
             .HORIZONTAL, false));
-        mRecyclerControl.setAdapter(mControlImageAdapter);
+        mRecyclerView.setAdapter(mAdapter);
+        if (mPathImage != null) {
+            Glide.with(this)
+                .load(mPathImage)
+                .into(mImageEdit);
+        }
     }
 
     @Override
     public void updateDataControl() {
-        mControlImageAdapter.setListControl(getListDataControl());
+        mAdapter.setListControl(getListDataControl());
     }
 
     @Override
