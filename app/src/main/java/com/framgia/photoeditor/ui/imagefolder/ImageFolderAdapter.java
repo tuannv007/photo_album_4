@@ -71,15 +71,14 @@ public class ImageFolderAdapter extends RecyclerView.Adapter<ImageFolderAdapter.
 
         private void bind(int position) {
             LocalImageFolder folder = mListImageFolder.get(position);
-            if (folder != null) {
-                Glide.with(mContext)
-                    .load(folder.getListImageOfFolder().get(0))
-                    .into(mImagePicture);
-                mTextFolderName
-                    .setText(folder.getFolderName() != null ? folder.getFolderName() : "");
-                mTextNumberImage.setText(
-                    mContext.getString(R.string.text_number, folder.getListImageOfFolder().size()));
-            }
+            if (folder == null) return;
+            Glide.with(mContext)
+                .load(folder.getListImageOfFolder().get(0))
+                .into(mImagePicture);
+            mTextFolderName
+                .setText(folder.getFolderName() != null ? folder.getFolderName() : "");
+            mTextNumberImage.setText(
+                mContext.getString(R.string.text_number, folder.getListImageOfFolder().size()));
         }
 
         @OnClick(R.id.linear_folder)

@@ -38,4 +38,5 @@ public class Constant {
     public class Font {
         public static final String FONT_BSC = "fonts/font_bsc.ttf";
     }
+    public static final int CHANGE_COLOR = 1;
 }

@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.Control;
+import com.framgia.photoeditor.ui.changecolor.ChangeColorFragment;
 import com.framgia.photoeditor.util.Constant;
 import com.framgia.photoeditor.util.Util;
 
@@ -39,6 +40,8 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     private ControlImageAdapter mAdapter;
+    private Bitmap mBitmapImage;
+    private ControlImageAdapter mControlImageAdapter;
     private EditImagePresenter mEditImagePresenter;
     private List<Control> mListControls = new ArrayList<>();
     private String mPathImage;
@@ -84,13 +87,17 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     @Override
     public void onItemClickListener(View v, int position) {
         switch (position) {
-            case Constant.OPEN_CAMERA:
-                openCamera();
-                break;
             case Constant.BLACK_WHITE_IMAGE:
                 if (mImageEdit.getDrawable() == null) return;
                 Bitmap bitmap = ((BitmapDrawable) mImageEdit.getDrawable()).getBitmap();
-                if (bitmap != null) mEditImagePresenter.convertImgBlackWhite(bitmap);
+                if (mBitmapImage != null) mEditImagePresenter.convertImgBlackWhite(bitmap);
+                break;
+            case Constant.CHANGE_COLOR:
+                ChangeColorFragment changeColorFragment;
+                changeColorFragment = ChangeColorFragment.newInstance(mPathImage);
+                getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame_edit_activity, changeColorFragment)
+                    .addToBackStack(null).commit();
                 break;
             default:
                 break;
