@@ -19,4 +19,12 @@
     <string name="save_error">File not save</string>
     <string name="text_photo_editor">Photo Editor</string>
     <string name="text_video">Video Maker</string>
+    <string name="scale">Scale</string>
+    <string name="feature_effect">Effect</string>
+    <string name="feature_color">Color</string>
+    <string name="feature_adjust">Adjust</string>
+    <string name="feature_crop">Crop</string>
+    <string name="feature_highlight">Highlight</string>
+    <string name="feature_orientation">Orientation</string>
+    <string name="feature_gamma">Gamma</string>
 </resources>
