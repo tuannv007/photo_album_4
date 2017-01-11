@@ -1,4 +1,4 @@
-package com.framgia.photoeditor.ui.main;
+package com.framgia.photoeditor.ui.editimage;
 
 import android.graphics.Bitmap;
 
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by tuanbg on 1/9/17.
  */
-public interface MainContract {
+public interface EditImageContract {
     interface View extends BaseView {
         void updateDataControl();
         List<Control> getListDataControl();

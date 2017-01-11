@@ -1,4 +1,4 @@
-package com.framgia.photoeditor.ui.main;
+package com.framgia.photoeditor.ui.editimage;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -26,7 +26,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements MainContract.View,
+public class EditImageActivity extends AppCompatActivity implements EditImageContract.View,
     ControlImageAdapter.OnItemClickListener {
     @BindView(R.id.image_main_screen)
     ImageView mImageMainScreen;
@@ -35,15 +35,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     private ControlImageAdapter mControlImageAdapter;
-    private MainPresenter mMainPresenter;
+    private EditImagePresenter mEditImagePresenter;
     private List<Control> mListControls = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_edit_image);
         ButterKnife.bind(this);
-        mMainPresenter = new MainPresenter(this);
+        mEditImagePresenter = new EditImagePresenter(this);
         updateDataControl();
     }
 
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             case Constant.BLACK_WHITE_IMAGE:
                 if (mImageMainScreen.getDrawable() == null) return;
                 Bitmap bitmap = ((BitmapDrawable) mImageMainScreen.getDrawable()).getBitmap();
-                if (bitmap != null) mMainPresenter.convertImgBlackWhite(bitmap);
+                if (bitmap != null) mEditImagePresenter.convertImgBlackWhite(bitmap);
                 break;
             default:
                 break;

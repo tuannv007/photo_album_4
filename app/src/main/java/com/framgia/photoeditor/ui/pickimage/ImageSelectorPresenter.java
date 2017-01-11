@@ -12,6 +12,7 @@ public class ImageSelectorPresenter implements ImageSelectorContract.Presenter {
 
     public ImageSelectorPresenter(ImageSelectorContract.View view, LocalImageFolder imageFolder) {
         mView = view;
+        mView.start();
         mImageFolder = imageFolder;
     }
 

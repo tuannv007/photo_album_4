@@ -1,4 +1,4 @@
-package com.framgia.photoeditor.ui.main;
+package com.framgia.photoeditor.ui.editimage;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -9,10 +9,10 @@ import com.framgia.photoeditor.util.Util;
 /**
  * Created by tuanbg on 1/9/17.
  */
-public class MainPresenter implements MainContract.Presenter {
-    private MainContract.View mView;
+public class EditImagePresenter implements EditImageContract.Presenter {
+    private EditImageContract.View mView;
 
-    public MainPresenter(@NonNull MainContract.View mainView) {
+    public EditImagePresenter(@NonNull EditImageContract.View mainView) {
         mView = mainView;
         mainView.start();
     }
