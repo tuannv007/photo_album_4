@@ -25,8 +25,7 @@ import static com.framgia.photoeditor.util.Constant.ImageSelector.DATA_PICK_SING
  * Created by Nhahv on 1/6/2017.
  * <></>
  */
-public class ImageSelectorAdapter
-    extends RecyclerView.Adapter<ImageSelectorAdapter.SelectorImageHolder> {
+public class ImageSelectorAdapter extends RecyclerView.Adapter<ImageSelectorAdapter.SelectorImageHolder> {
     private Context mContext;
     private LayoutInflater mInflater;
     private OnPickImageSelected mOnPickImageSelected;
