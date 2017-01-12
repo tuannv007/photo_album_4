@@ -6,20 +6,24 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
 import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.Control;
 import com.framgia.photoeditor.ui.changecolor.ChangeColorFragment;
+import com.framgia.photoeditor.ui.framgent.AdjustFragment;
+import com.framgia.photoeditor.ui.framgent.HighlightFragment;
 import com.framgia.photoeditor.util.Constant;
 import com.framgia.photoeditor.util.Util;
 
@@ -30,21 +34,27 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.framgia.photoeditor.util.Constant.Bundle.BUNDLE_PATH_IMAGE;
+import static com.framgia.photoeditor.util.Constant.Feature.FEATURE_EFFECT;
+import static com.framgia.photoeditor.util.Constant.Request.REQUEST_CODE_CAMERA;
 
 public class EditImageActivity extends AppCompatActivity implements EditImageContract.View,
     ControlImageAdapter.OnItemClickListener {
-    @BindView(R.id.image_main_screen)
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.image_edit)
     ImageView mImageEdit;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    @BindView(R.id.linear_edit)
+    LinearLayout mLinearEdit;
     private ControlImageAdapter mAdapter;
-    private Bitmap mBitmapImage;
-    private ControlImageAdapter mControlImageAdapter;
-    private EditImagePresenter mEditImagePresenter;
+    private EditImagePresenter mPresenter;
     private List<Control> mListControls = new ArrayList<>();
     private String mPathImage;
+    private Bitmap mBitmapImage;
+    private HighlightFragment mHighlightFragment;
+    private AdjustFragment mAdjustFragment;
+    private ChangeColorFragment mColorFragment;
 
     public static Intent getEditImageIntent(Context context, String pathImage) {
         Intent intent = new Intent(context, EditImageActivity.class);
@@ -65,7 +75,8 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
         setContentView(R.layout.activity_edit_image);
         ButterKnife.bind(this);
         getDataFromIntent();
-        mEditImagePresenter = new EditImagePresenter(this);
+        mPresenter = new EditImagePresenter(this, mPathImage);
+        mPresenter.bitmapFromFile();
         updateDataControl();
     }
 
@@ -78,26 +89,47 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constant.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get(Constant.DATA_CAMERA);
             mImageEdit.setImageBitmap(photo);
         }
     }
 
-    @Override
-    public void onItemClickListener(View v, int position) {
-        switch (position) {
-            case Constant.BLACK_WHITE_IMAGE:
-                if (mImageEdit.getDrawable() == null) return;
-                Bitmap bitmap = ((BitmapDrawable) mImageEdit.getDrawable()).getBitmap();
-                if (mBitmapImage != null) mEditImagePresenter.convertImgBlackWhite(bitmap);
+    public void onItemClickListener(int position) {
+        Constant.Feature feature = FEATURE_EFFECT;
+        feature.setPosition(position);
+        switch (feature) {
+            case FEATURE_EFFECT:
+                // TODO: 1/11/2017 set effect of image
                 break;
-            case Constant.CHANGE_COLOR:
-                ChangeColorFragment changeColorFragment;
-                changeColorFragment = ChangeColorFragment.newInstance(mPathImage);
-                getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame_edit_activity, changeColorFragment)
-                    .addToBackStack(null).commit();
+            case FEATURE_COLOR:
+                if (mColorFragment == null) {
+                    mColorFragment = ChangeColorFragment.newInstance(mPathImage);
+                }
+                setFragment(mColorFragment);
+                break;
+            case FEATURE_ADJUST:
+                mLinearEdit.setVisibility(View.GONE);
+                if (mAdjustFragment == null) {
+                    mAdjustFragment = AdjustFragment.newInstance(mBitmapImage);
+                }
+                setFragment(mAdjustFragment);
+                break;
+            case FEATURE_CROP:
+                // TODO: 1/11/2017 feature crop image
+                break;
+            case FEATURE_HIGHLIGHT:
+                mLinearEdit.setVisibility(View.GONE);
+                if (mHighlightFragment == null) {
+                    mHighlightFragment = HighlightFragment.newInstance(mBitmapImage);
+                }
+                setFragment(mHighlightFragment);
+                break;
+            case FEATURE_ORIENTATION:
+                // TODO: 1/11/2017 feature change orientation of image
+                break;
+            case FEATURE_GAMMA:
+                // TODO: 1/11/2017 change gamma of image
                 break;
             default:
                 break;
@@ -107,7 +139,7 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     @Override
     public void openCamera() {
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, Constant.REQUEST_CODE_CAMERA);
+        startActivityForResult(cameraIntent, REQUEST_CODE_CAMERA);
     }
 
     @Override
@@ -132,11 +164,6 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager
             .HORIZONTAL, false));
         mRecyclerView.setAdapter(mAdapter);
-        if (mPathImage != null) {
-            Glide.with(this)
-                .load(mPathImage)
-                .into(mImageEdit);
-        }
     }
 
     @Override
@@ -156,5 +183,22 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
             mListControls.add(new Control(resource.getResourceId(i, 0), title[i]));
         }
         return mListControls;
+    }
+
+    @Override
+    public Point getDisplaySize() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return new Point(metrics.widthPixels, metrics.heightPixels);
+    }
+
+    @Override
+    public void updateImage(Bitmap bitmap) {
+        mBitmapImage = bitmap;
+        mImageEdit.setImageBitmap(bitmap);
+    }
+
+    private void setFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragment).commit();
     }
 }

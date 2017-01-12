@@ -2,10 +2,12 @@ package com.framgia.photoeditor.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Environment;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
@@ -16,6 +18,7 @@ import java.util.Locale;
 
 /**
  * Created by tuanbg on 1/6/17.
+ * <></>
  */
 public class Util {
     public static Bitmap convertImageToBlackWhite(Bitmap src) {
@@ -69,6 +72,16 @@ public class Util {
 
     public static void showToast(Context context, int id) {
         if (context != null) Toast.makeText(context, id, Toast.LENGTH_SHORT).show();
+    }
+
+    public static Bitmap decodeFromByte(byte[] bytes) {
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+    public static byte[] convertBitmapToByte(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
     }
 }
 
