@@ -27,8 +27,8 @@
     <string name="feature_highlight">Highlight</string>
     <string name="feature_orientation">Orientation</string>
     <string name="feature_gamma">Gamma</string>
-    <string name="red">Red</string>
-    <string name="green">Green</string>
-    <string name="blue">Blue</string>
-    <string name="alpha">Alpha</string>
+    <string name="feature_brightness">Brightness</string>
+    <string name="feature_hue">Hue</string>
+    <string name="feature_contrast">Contrast</string>
+
 </resources>
