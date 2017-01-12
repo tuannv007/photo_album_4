@@ -30,6 +30,7 @@ public class Constant {
     public class Bundle {
         public static final String BUNDLE_PATH_IMAGE = "BUNDLE_PATH_IMAGE";
         public static final String BUNDLE_BITMAP = "BUNDLE_BITMAP";
+        public static final String BUNDLE_POSITION = "BUNDLE_POSITION";
     }
 
     public class ImageSelector {

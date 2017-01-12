@@ -21,6 +21,7 @@
         <activity android:name=".ui.editimage.EditImageActivity"/>
         <activity android:name=".ui.pickimage.ImageSelectorActivity"/>
         <activity android:name=".ui.activity.MainActivity"/>
+        <activity android:name=".ui.previewimage.PreviewImageActivity"/>
     </application>
 
 </manifest>

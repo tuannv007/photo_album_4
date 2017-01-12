@@ -30,7 +30,7 @@ public class ImageSelectorAdapter
     private Context mContext;
     private LayoutInflater mInflater;
     private OnPickImageSelected mOnPickImageSelected;
-    private List<String> mListImage = new ArrayList<>();
+    private ArrayList<String> mListImage = new ArrayList<>();
     private ArrayList<String> mListImageSelected = new ArrayList<>();
     private int mTypePickImage;
 
@@ -93,8 +93,19 @@ public class ImageSelectorAdapter
             selectImageChecked(mImageChecked.isSelected());
         }
 
-        @OnClick({R.id.image_picture, R.id.image_checked})
-        void onClickPreviewImage() {
+        @OnClick(R.id.image_checked)
+        void clickPickImage() {
+            String pathImage = mListImage.get(getAdapterPosition());
+            mImageChecked.setSelected(!mImageChecked.isSelected());
+            selectImageChecked(mImageChecked.isSelected());
+            changeCheckboxState(pathImage, mImageChecked.isSelected());
+            if (mOnPickImageSelected != null) {
+                mOnPickImageSelected.onImageSelected(mListImageSelected);
+            }
+        }
+
+        @OnClick(R.id.image_picture)
+        void clickPreviewImage() {
             String pathImage = mListImage.get(getAdapterPosition());
             switch (mTypePickImage) {
                 case DATA_PICK_SINGLE_IMAGE:
@@ -103,12 +114,8 @@ public class ImageSelectorAdapter
                     }
                     break;
                 case DATA_PICK_MULTIPLE_IMAGE:
-                    mImageChecked.setSelected(!mImageChecked.isSelected());
-                    selectImageChecked(mImageChecked.isSelected());
-                    changeCheckboxState(pathImage, mImageChecked.isSelected());
-                    if (mOnPickImageSelected != null) {
-                        mOnPickImageSelected.onImageSelected(mListImageSelected);
-                    }
+                    if (mOnPickImageSelected == null) return;
+                    mOnPickImageSelected.pickPreviewImage(mListImage, getAdapterPosition());
                     break;
                 default:
                     break;
@@ -147,5 +154,6 @@ public class ImageSelectorAdapter
     public interface OnPickImageSelected {
         void onImageSelected(List<String> images);
         void pickSingleImage(String pathImage);
+        void pickPreviewImage(ArrayList<String> pathImages, int position);
     }
 }
