@@ -30,5 +30,11 @@
     <string name="feature_brightness">Brightness</string>
     <string name="feature_hue">Hue</string>
     <string name="feature_contrast">Contrast</string>
-
+    <string name="loading">Loading</string>
+    <string name="video_saved">Video saved in Download</string>
+    <string name="share_fb">Share in Facebook</string>
+    <string name="facebook_app_id">1204447269650459</string>
+    <string name="share_fb_success">Video Share Success</string>
+    <string name="video_share_error">Video not share</string>
+    <string name="connect_fb_error">Connect Facebook error</string>
 </resources>

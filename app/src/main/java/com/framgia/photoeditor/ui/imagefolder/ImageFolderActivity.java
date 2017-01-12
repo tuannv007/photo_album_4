@@ -18,6 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.framgia.photoeditor.util.Constant.ImageSelector.BUNDLE_LIST_IMAGE;
 import static com.framgia.photoeditor.util.Constant.ImageSelector.BUNDLE_TYPE_PICK_IMAGE;
@@ -57,7 +58,6 @@ public class ImageFolderActivity extends AppCompatActivity
         mPresenter = new ImageFolderPresent(this);
         mPresenter.getListImageFolder(this);
     }
-
     @Override
     public void start() {
         setSupportActionBar(mToolbar);
@@ -73,6 +73,7 @@ public class ImageFolderActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SELECTOR_IMAGE && resultCode == RESULT_OK) {
+            if (data == null) return;
             Bundle bundle = data.getExtras();
             if (bundle == null) return;
             int typePickImage = bundle.getInt(BUNDLE_TYPE_PICK_IMAGE);

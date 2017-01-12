@@ -32,4 +32,6 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.writingminds:FFmpegAndroid:0.3.2'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 }
