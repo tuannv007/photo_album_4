@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
 import com.framgia.photoeditor.R;
+import com.framgia.photoeditor.util.Constant;
 import com.framgia.photoeditor.util.Util;
 import com.framgia.photoeditor.util.UtilImage;
 
@@ -31,12 +32,13 @@ public class AdjustFragment extends Fragment implements AdjusmentContract.View {
     @BindView(R.id.linear_feature)
     LinearLayout mLinearFeature;
     @BindView(R.id.linear_feature_brightness)
-    LinearLayout mLinearBrightness;
+    LinearLayout mLinearControl;
     @BindView(R.id.seekbar_brightness)
     SeekBar mSeekBarBrightness;
     @BindView(R.id.linear_black_white)
     LinearLayout mLinearBlackWhite;
     private AdjustPresenter mPresenter;
+    private int mType;
 
     public static AdjustFragment newInstance(Bitmap bitmap) {
         AdjustFragment fragment = new AdjustFragment();
@@ -74,7 +76,11 @@ public class AdjustFragment extends Fragment implements AdjusmentContract.View {
         mSeekBarBrightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int index, boolean b) {
-                mImageEdit.setImageBitmap(UtilImage.brightness(mBitmap, index, index));
+                if (mType == Constant.TypeControl.TYPE_BRIGHTNESS) {
+                    mImageEdit.setImageBitmap(UtilImage.brightness(mBitmap, index, index));
+                } else if (mType == Constant.TypeControl.TYPE_CONTRAST) {
+                    mImageEdit.setImageBitmap(Util.createContrast(mBitmap, index));
+                }
             }
 
             @Override
@@ -83,6 +89,10 @@ public class AdjustFragment extends Fragment implements AdjusmentContract.View {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                if (mType == Constant.TypeControl.TYPE_HUE) {
+                    mImageEdit.setImageBitmap(Util.updateHUE(mBitmap, seekBar.getProgress(), 0.1f,
+                        0.1f));
+                }
             }
         });
     }
@@ -98,13 +108,16 @@ public class AdjustFragment extends Fragment implements AdjusmentContract.View {
         mLinearFeature.setVisibility(View.GONE);
         switch (view.getId()) {
             case R.id.linear_brightness:
-                mLinearBrightness.setVisibility(View.VISIBLE);
+                mType = Constant.TypeControl.TYPE_BRIGHTNESS;
+                mLinearControl.setVisibility(View.VISIBLE);
                 break;
             case R.id.linear_contrast:
-                // TODO: 1/11/2017 change contrast
+                mType = Constant.TypeControl.TYPE_CONTRAST;
+                mLinearControl.setVisibility(View.VISIBLE);
                 break;
             case R.id.linear_hue:
-                // TODO: 1/11/2017 change color of image
+                mType = Constant.TypeControl.TYPE_HUE;
+                mLinearControl.setVisibility(View.VISIBLE);
                 break;
             case R.id.linear_black_white:
                 mPresenter.convertImgBlackWhite(mBitmap);
