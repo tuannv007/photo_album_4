@@ -1,14 +1,18 @@
 package com.framgia.photoeditor.ui.previewimage;
 
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.framgia.photoeditor.R;
+import com.framgia.photoeditor.ui.widget.ZoomImageView;
+import com.framgia.photoeditor.util.UtilImage;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,7 +24,7 @@ import static com.framgia.photoeditor.util.Constant.Bundle.BUNDLE_PATH_IMAGE;
  */
 public class PreviewImageFragment extends Fragment {
     @BindView(R.id.image_edit)
-    ImageView mImagePreview;
+    ZoomImageView mImagePreview;
     private String mPathImage;
 
     public static PreviewImageFragment newInstance(String pathImage) {
@@ -39,12 +43,21 @@ public class PreviewImageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_highlight, container, false);
+        View view = inflater.inflate(R.layout.fragment_preview_image, container, false);
         ButterKnife.bind(this, view);
         getDataFromActivity();
-        Glide.with(this)
-            .load(mPathImage)
-            .into(mImagePreview);
+        Point point = getDisplaySize();
+        try {
+            mImagePreview.setImageBitmap(UtilImage.decodeBitmap(mPathImage, point.x, point.y));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return view;
+    }
+
+    public Point getDisplaySize() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return new Point(metrics.widthPixels, metrics.heightPixels);
     }
 }
