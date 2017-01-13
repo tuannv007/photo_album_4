@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.LocalImageFolder;
+import com.framgia.photoeditor.ui.imgtovideo.SlideEditorActivity;
 import com.framgia.photoeditor.ui.previewimage.PreviewImageActivity;
 
 import java.util.ArrayList;
@@ -76,12 +77,9 @@ public class ImageSelectorActivity extends AppCompatActivity
 
     @OnClick(R.id.text_selected_image_done)
     void onClickDoneSelectedImage() {
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putStringArrayList(BUNDLE_LIST_IMAGE, mAdapter.getListImageSelected());
-        bundle.putInt(BUNDLE_TYPE_PICK_IMAGE, mTypePickImage);
-        intent.putExtras(bundle);
-        setResult(RESULT_OK, intent);
+        startActivity(
+            SlideEditorActivity.getDataImageIntent(this, mAdapter.getListImageSelected()));
+        setResult(RESULT_OK);
         finish();
     }
 

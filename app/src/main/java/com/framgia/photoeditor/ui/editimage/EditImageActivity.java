@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -96,13 +97,13 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     }
 
     public void onItemClickListener(int position) {
-        Constant.Feature feature = FEATURE_EFFECT;
-        feature.setPosition(position);
+        Constant.Feature feature = Constant.Feature.values()[position];
         switch (feature) {
             case FEATURE_EFFECT:
                 // TODO: 1/11/2017 set effect of image
                 break;
             case FEATURE_COLOR:
+                mLinearEdit.setVisibility(View.GONE);
                 if (mColorFragment == null) {
                     mColorFragment = ChangeColorFragment.newInstance(mPathImage);
                 }
@@ -199,6 +200,6 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     }
 
     private void setFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
     }
 }

@@ -63,7 +63,7 @@ public class Util {
         }
     }
 
-    private static String getTime() {
+    public static String getTime() {
         Calendar cal = Calendar.getInstance();
         Date currentLocalTime = cal.getTime();
         DateFormat date = new SimpleDateFormat("HHmmss", Locale.getDefault());

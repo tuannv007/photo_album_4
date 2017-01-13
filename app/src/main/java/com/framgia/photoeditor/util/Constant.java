@@ -5,9 +5,12 @@ package com.framgia.photoeditor.util;
  * <></>
  */
 public class Constant {
+    public static final String PATH_FIELD_FB = "mUri";
+
     public class Request {
         public static final int REQUEST_SELECTOR_IMAGE = 1;
-        public static final int REQUEST_CODE_CAMERA = 1000;
+        public static final int REQUEST_CODE_CAMERA = 2;
+        public static final int SELECT_IMAGE = 3;
     }
 
     public static final String DATA_IMAGE_JPEG = "image/jpeg";
@@ -40,6 +43,7 @@ public class Constant {
         public static final String BUNDLE_LIST_IMAGE = "BUNDLE_LIST_IMAGE";
         public static final int DATA_PICK_MULTIPLE_IMAGE = 1;
         public static final int DATA_PICK_SINGLE_IMAGE = 2;
+        public static final String BUNDLE_PATH_IMAGE = "BUNDLE_PATH_IMAGE";
     }
 
     public class Font {
@@ -66,4 +70,11 @@ public class Constant {
             this.mPosition = position;
         }
     }
+
+    public static final String TYPE_MP4 = ".mp4";
+    public static final String RESIZE_IMAGE = "/resize_";
+    public static final String TYPE_AUDIO = "audio/*";
+    public static final int WIDTH_VIDEO = 640;
+    public static final int HEIGHT_VIDEO = 400;
+    public static final String PREMISTION_FACEBOOK = "publish_actions";
 }
