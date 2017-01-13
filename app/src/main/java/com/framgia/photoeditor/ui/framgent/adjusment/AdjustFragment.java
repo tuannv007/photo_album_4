@@ -1,4 +1,4 @@
-package com.framgia.photoeditor.ui.framgent;
+package com.framgia.photoeditor.ui.framgent.adjusment;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -24,7 +24,7 @@ import static com.framgia.photoeditor.util.Constant.Size.DATA_SIZE_SEEKBAR;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AdjustFragment extends Fragment {
+public class AdjustFragment extends Fragment implements AdjusmentContract.View {
     private Bitmap mBitmap;
     @BindView(R.id.image_edit)
     ImageView mImageEdit;
@@ -34,6 +34,9 @@ public class AdjustFragment extends Fragment {
     LinearLayout mLinearBrightness;
     @BindView(R.id.seekbar_brightness)
     SeekBar mSeekBarBrightness;
+    @BindView(R.id.linear_black_white)
+    LinearLayout mLinearBlackWhite;
+    private AdjustPresenter mPresenter;
 
     public static AdjustFragment newInstance(Bitmap bitmap) {
         AdjustFragment fragment = new AdjustFragment();
@@ -59,10 +62,11 @@ public class AdjustFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_adjust, container, false);
         ButterKnife.bind(this, view);
         getDataFromActivity();
-        start();
+        mPresenter = new AdjustPresenter(this);
         return view;
     }
 
+    @Override
     public void start() {
         mImageEdit.setImageBitmap(mBitmap);
         mSeekBarBrightness.setProgress(DATA_SIZE_SEEKBAR / 2);
@@ -83,7 +87,13 @@ public class AdjustFragment extends Fragment {
         });
     }
 
-    @OnClick({R.id.linear_contrast, R.id.linear_hue, R.id.linear_brightness})
+    @Override
+    public void updateImgBlackWhite(Bitmap bitmap) {
+        mImageEdit.setImageBitmap(bitmap);
+    }
+
+    @OnClick(
+        {R.id.linear_contrast, R.id.linear_hue, R.id.linear_brightness, R.id.linear_black_white})
     void onClick(View view) {
         mLinearFeature.setVisibility(View.GONE);
         switch (view.getId()) {
@@ -95,6 +105,9 @@ public class AdjustFragment extends Fragment {
                 break;
             case R.id.linear_hue:
                 // TODO: 1/11/2017 change color of image
+                break;
+            case R.id.linear_black_white:
+                mPresenter.convertImgBlackWhite(mBitmap);
                 break;
             default:
                 break;

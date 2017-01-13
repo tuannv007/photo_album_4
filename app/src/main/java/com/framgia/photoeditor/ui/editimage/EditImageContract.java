@@ -20,13 +20,11 @@ public interface EditImageContract {
         void openCamera();
         void saveOnSuccess();
         void saveError();
-        void updateImgBlackWhite(Bitmap bitmap);
         Point getDisplaySize();
         void updateImage(Bitmap bitmap);
     }
 
     interface Presenter extends BasePresenter {
-        void convertImgBlackWhite(Bitmap bitmap);
         void handleSave(Bitmap bitmap);
         void bitmapFromFile();
         void getBitmapBrightness(Bitmap bitmap, int index);

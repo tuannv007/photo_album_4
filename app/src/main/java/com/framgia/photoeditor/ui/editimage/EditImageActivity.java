@@ -8,7 +8,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,7 +22,7 @@ import android.widget.LinearLayout;
 import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.Control;
 import com.framgia.photoeditor.ui.changecolor.ChangeColorFragment;
-import com.framgia.photoeditor.ui.framgent.AdjustFragment;
+import com.framgia.photoeditor.ui.framgent.adjusment.AdjustFragment;
 import com.framgia.photoeditor.ui.framgent.HighlightFragment;
 import com.framgia.photoeditor.util.Constant;
 import com.framgia.photoeditor.util.Util;
@@ -35,7 +34,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.framgia.photoeditor.util.Constant.Bundle.BUNDLE_PATH_IMAGE;
-import static com.framgia.photoeditor.util.Constant.Feature.FEATURE_EFFECT;
 import static com.framgia.photoeditor.util.Constant.Request.REQUEST_CODE_CAMERA;
 
 public class EditImageActivity extends AppCompatActivity implements EditImageContract.View,
@@ -98,6 +96,7 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
 
     public void onItemClickListener(int position) {
         Constant.Feature feature = Constant.Feature.values()[position];
+        feature.setPosition(position);
         switch (feature) {
             case FEATURE_EFFECT:
                 // TODO: 1/11/2017 set effect of image
@@ -151,11 +150,6 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     @Override
     public void saveError() {
         Util.showToast(getApplicationContext(), R.string.save_error);
-    }
-
-    @Override
-    public void updateImgBlackWhite(Bitmap bitmap) {
-        mImageEdit.setImageBitmap(bitmap);
     }
 
     @Override

@@ -34,10 +34,7 @@ public class EditImagePresenter implements EditImageContract.Presenter {
         return Util.saveImage(bitmap);
     }
 
-    @Override
-    public void convertImgBlackWhite(Bitmap bitmap) {
-        new ConvertImgToBlackWhite().execute(bitmap);
-    }
+
 
     @Override
     public void handleSave(Bitmap bitmap) {
@@ -45,18 +42,7 @@ public class EditImagePresenter implements EditImageContract.Presenter {
         else mView.saveError();
     }
 
-    public class ConvertImgToBlackWhite extends AsyncTask<Bitmap, Void, Bitmap> {
-        @Override
-        protected Bitmap doInBackground(Bitmap... params) {
-            return Util.convertImageToBlackWhite(params[0]);
-        }
 
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            mView.updateImgBlackWhite(bitmap);
-        }
-    }
 
     @Override
     public void bitmapFromFile() {
