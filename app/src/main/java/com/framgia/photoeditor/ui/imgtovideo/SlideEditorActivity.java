@@ -200,7 +200,6 @@ public class SlideEditorActivity extends AppCompatActivity implements SlideEdito
         });
     }
 
-
     @Override
     public Uri getUriVideo() {
         String path;

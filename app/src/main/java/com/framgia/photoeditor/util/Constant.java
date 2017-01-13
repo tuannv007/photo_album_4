@@ -7,6 +7,12 @@ package com.framgia.photoeditor.util;
 public class Constant {
     public static final String PATH_FIELD_FB = "mUri";
 
+    public class TypeControl {
+        public static final int TYPE_BRIGHTNESS = 1;
+        public static final int TYPE_HUE = 2;
+        public static final int TYPE_CONTRAST = 3;
+    }
+
     public class Request {
         public static final int REQUEST_SELECTOR_IMAGE = 1;
         public static final int REQUEST_CODE_CAMERA = 2;
@@ -77,4 +83,10 @@ public class Constant {
     public static final int WIDTH_VIDEO = 640;
     public static final int HEIGHT_VIDEO = 400;
     public static final String PREMISTION_FACEBOOK = "publish_actions";
+    public static final double MAX_PIXEL_COLOR = 255.0;
+    public static final double MIN_PIXEL_COLOR = 0.0;
+    public static final float MIN_PIXEL_COLOR_HUE = 0.0f;
+    public static final float MAX_PIXEL_COLOR_HUE = 360.0f;
+    public static final int MAX_PIXEL_INTERGER = 255;
+    public static final int MAX_VALUE = 100;
 }
