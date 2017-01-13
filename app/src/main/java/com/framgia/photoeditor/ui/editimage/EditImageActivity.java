@@ -24,6 +24,7 @@ import com.framgia.photoeditor.data.model.Control;
 import com.framgia.photoeditor.ui.changecolor.ChangeColorFragment;
 import com.framgia.photoeditor.ui.framgent.adjusment.AdjustFragment;
 import com.framgia.photoeditor.ui.framgent.HighlightFragment;
+import com.framgia.photoeditor.ui.framgent.effect.EffectFragment;
 import com.framgia.photoeditor.util.Constant;
 import com.framgia.photoeditor.util.Util;
 
@@ -54,6 +55,7 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     private HighlightFragment mHighlightFragment;
     private AdjustFragment mAdjustFragment;
     private ChangeColorFragment mColorFragment;
+    private EffectFragment mEffectFragment;
 
     public static Intent getEditImageIntent(Context context, String pathImage) {
         Intent intent = new Intent(context, EditImageActivity.class);
@@ -99,7 +101,11 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
         feature.setPosition(position);
         switch (feature) {
             case FEATURE_EFFECT:
-                // TODO: 1/11/2017 set effect of image
+                mLinearEdit.setVisibility(View.GONE);
+                if (mEffectFragment == null) {
+                    mEffectFragment = EffectFragment.newInstance(mBitmapImage);
+                }
+                setFragment(mEffectFragment);
                 break;
             case FEATURE_COLOR:
                 mLinearEdit.setVisibility(View.GONE);
@@ -194,6 +200,9 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     }
 
     private void setFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+        getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.frame_layout, fragment)
+            .commit();
     }
 }

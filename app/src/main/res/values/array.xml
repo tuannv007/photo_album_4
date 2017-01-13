@@ -18,5 +18,28 @@
         <item>@string/feature_orientation</item>
         <item>@string/feature_gamma</item>
     </string-array>
-
+    <integer-array name="image_effect">
+        <item>@drawable/ic_filter_none</item>
+        <item>@drawable/ic_filter_contr</item>
+        <item>@drawable/ic_filter_cross</item>
+        <item>@drawable/ic_filter_document</item>
+        <item>@drawable/ic_filter_gray</item>
+        <item>@drawable/ic_filter_hight</item>
+        <item>@drawable/ic_filter_lomoi</item>
+        <item>@drawable/ic_filter_sepia</item>
+        <item>@drawable/ic_filter_sharp</item>
+        <item>@drawable/ic_filter_tempe</item>
+    </integer-array>
+    <string-array name="effects">
+        <item>@string/action_none</item>
+        <item>@string/action_contrast</item>
+        <item>@string/crop_image</item>
+        <item>@string/action_documentary</item>
+        <item>@string/action_grayscale</item>
+        <item>@string/highlight</item>
+        <item>@string/action_lomoish</item>
+        <item>@string/action_sepia</item>
+        <item>@string/action_sharpen</item>
+        <item>@string/action_temperature</item>
+    </string-array>
 </resources>
