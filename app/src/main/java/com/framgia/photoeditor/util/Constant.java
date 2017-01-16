@@ -6,6 +6,12 @@ package com.framgia.photoeditor.util;
  */
 public class Constant {
     public static final String PATH_FIELD_FB = "mUri";
+    public static final int LAYOUT_FOUR = 4;
+    public static final int LAYOUT_OLD = 0;
+    public static final int LAYOUT_ONE = 1;
+    public static final int LAYOUT_TWO = 2;
+    public static final int LAYOUT_THREE = 3;
+    public static final float STROCKE_WIDTH = 20;
 
     public class TypeControl {
         public static final int TYPE_BRIGHTNESS = 1;
@@ -46,11 +52,15 @@ public class Constant {
     public class ImageSelector {
         public static final int SPAN_COUNT = 3;
         public static final String BUNDLE_TYPE_PICK_IMAGE = "BUNDLE_TYPE_PICK_IMAGE";
+        public static final String BUNDLE_TYPE_START = "BUNDLE_TYPE_START";
         public static final String BUNDLE_IMAGE_FOLDER = "BUNDLE_IMAGE_FOLDER";
         public static final String BUNDLE_LIST_IMAGE = "BUNDLE_LIST_IMAGE";
         public static final int DATA_PICK_MULTIPLE_IMAGE = 1;
         public static final int DATA_PICK_SINGLE_IMAGE = 2;
         public static final String BUNDLE_PATH_IMAGE = "BUNDLE_PATH_IMAGE";
+        public static final int DATA_PICK_SINGLE_IMAGE_MERGE = 3;
+        public static final int BUNDLE_TYPE_START_MAIN = 1;
+        public static final int BUNDLE_TYPE_START_MERGE = 2;
     }
 
     public class Font {
@@ -75,7 +85,7 @@ public class Constant {
         public void setPosition(int position) {
             this.mPosition = position;
         }
-        }
+    }
 
     public static final String TYPE_MP4 = ".mp4";
     public static final String RESIZE_IMAGE = "/resize_";

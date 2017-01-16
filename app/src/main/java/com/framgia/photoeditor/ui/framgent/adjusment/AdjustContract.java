@@ -11,7 +11,7 @@ import com.framgia.photoeditor.ui.base.BaseView;
 public interface AdjustContract {
     interface View extends BaseView {
         void updateImgBlackWhite(Bitmap bitmap);
-        void blackWhiteGone();
+        void hideButtonBlackWhite();
     }
 
     interface Presenter extends BasePresenter {

@@ -25,7 +25,7 @@ import static com.framgia.photoeditor.util.Constant.Size.DATA_SIZE_SEEKBAR;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AdjustFragment extends Fragment implements AdjusmentContract.View {
+public class AdjustFragment extends Fragment implements AdjustContract.View {
     private Bitmap mBitmap;
     @BindView(R.id.image_edit)
     ImageView mImageEdit;
@@ -100,6 +100,10 @@ public class AdjustFragment extends Fragment implements AdjusmentContract.View {
     @Override
     public void updateImgBlackWhite(Bitmap bitmap) {
         mImageEdit.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void hideButtonBlackWhite() {
     }
 
     @OnClick(

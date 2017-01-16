@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.LocalImageFolder;
 import com.framgia.photoeditor.ui.editimage.EditImageActivity;
+import com.framgia.photoeditor.ui.mergeimage.MergeImageActivity;
 import com.framgia.photoeditor.ui.pickimage.ImageSelectorActivity;
 import com.framgia.photoeditor.util.RequestPermissionUtils;
 
@@ -27,6 +28,9 @@ import butterknife.OnClick;
 import static com.framgia.photoeditor.util.RequestPermissionUtils.PERMISSION_CALLBACK_CAMERA;
 import static com.framgia.photoeditor.util.Constant.ImageSelector.BUNDLE_LIST_IMAGE;
 import static com.framgia.photoeditor.util.Constant.ImageSelector.BUNDLE_TYPE_PICK_IMAGE;
+import static com.framgia.photoeditor.util.Constant.ImageSelector.BUNDLE_TYPE_START;
+import static com.framgia.photoeditor.util.Constant.ImageSelector.BUNDLE_TYPE_START_MAIN;
+import static com.framgia.photoeditor.util.Constant.ImageSelector.BUNDLE_TYPE_START_MERGE;
 import static com.framgia.photoeditor.util.Constant.ImageSelector.DATA_PICK_MULTIPLE_IMAGE;
 import static com.framgia.photoeditor.util.Constant.ImageSelector.DATA_PICK_SINGLE_IMAGE;
 import static com.framgia.photoeditor.util.Constant.Request.REQUEST_SELECTOR_IMAGE;
@@ -36,22 +40,26 @@ public class ImageFolderActivity extends AppCompatActivity
     private ImageFolderAdapter mAdapter;
     private ImageFolderPresent mPresenter;
     private int mTypePickImage;
+    private int mTypeStart;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
-    public static Intent getProfileIntent(Context context, int typePickImage) {
+    public static Intent getImageFolderIntent(Context context, int typePickImage, int typeStart) {
         Intent intent = new Intent(context, ImageFolderActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt(BUNDLE_TYPE_PICK_IMAGE, typePickImage);
+        bundle.putInt(BUNDLE_TYPE_START, typeStart);
         intent.putExtras(bundle);
         return intent;
     }
 
     private void getDataFromIntent() {
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) mTypePickImage = bundle.getInt(BUNDLE_TYPE_PICK_IMAGE);
+        if (bundle == null) return;
+        mTypePickImage = bundle.getInt(BUNDLE_TYPE_PICK_IMAGE);
+        mTypeStart = bundle.getInt(BUNDLE_TYPE_START);
     }
 
     @Override
@@ -111,7 +119,26 @@ public class ImageFolderActivity extends AppCompatActivity
 
     @Override
     public void pickSingleImage(String string) {
-        startActivity(EditImageActivity.getEditImageIntent(this, string));
+        switch (mTypeStart) {
+            case BUNDLE_TYPE_START_MAIN:
+                startActivity(EditImageActivity.getEditImageIntent(this, string));
+                break;
+            case BUNDLE_TYPE_START_MERGE:
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putString(BUNDLE_LIST_IMAGE, string);
+                intent.putExtras(bundle);
+                setResult(RESULT_OK, intent);
+                finish();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void pickSingleImageMerge(String string) {
+        startActivity(MergeImageActivity.getMegreImageIntent(this, string));
     }
 
     @Override
