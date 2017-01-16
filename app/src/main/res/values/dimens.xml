@@ -8,6 +8,7 @@
     <dimen name="dp_2">2dp</dimen>
     <dimen name="dp_76">76dp</dimen>
     <dimen name="dp_100">100dp</dimen>
+    <dimen name="dp_120">120dp</dimen>
     <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_56">56dp</dimen>
     <dimen name="dp_04">0.4dp</dimen>
@@ -28,4 +29,5 @@
     <dimen name="sp_50">50sp</dimen>
     <dimen name="dp_220">220dp</dimen>
     <dimen name="dp_70">70dp</dimen>
+    <dimen name="dp_65">65dp</dimen>
 </resources>

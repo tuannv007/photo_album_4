@@ -6,7 +6,7 @@
     <string name="black_white">BlackWhite</string>
     <string name="change_color">Color</string>
     <string name="edit_hue">Hue</string>
-    <string name="effects">Effects</string>
+    <string name="effectses">Effects</string>
     <string name="light">Light</string>
     <string name="highlight">Highlight</string>
     <string name="change_movies">Change Movies</string>
@@ -37,4 +37,28 @@
     <string name="share_fb_success">Video Share Success</string>
     <string name="video_share_error">Video not share</string>
     <string name="connect_fb_error">Connect Facebook error</string>
+    <string name="action_none">None</string>
+    <string name="action_autofix">Autofix</string>
+    <string name="action_bw">Min/Max Color Intensity</string>
+    <string name="action_brightness">Brightness</string>
+    <string name="action_contrast">Contrast</string>
+    <string name="action_crossprocess">Cross Process</string>
+    <string name="action_documentary">Documentary</string>
+    <string name="action_duotone">Duo Tone</string>
+    <string name="action_filllight">Fill Light</string>
+    <string name="action_fisheye">Fish Eye</string>
+    <string name="action_flipvert">Flip Vertical</string>
+    <string name="action_fliphor">Flip Horizontal</string>
+    <string name="action_grain">Grain</string>
+    <string name="action_grayscale">Grayscale</string>
+    <string name="action_lomoish">Lomoish</string>
+    <string name="action_negative">Negative</string>
+    <string name="action_posterize">Posterize</string>
+    <string name="action_rotate">Rotate</string>
+    <string name="action_saturate">Saturate</string>
+    <string name="action_sepia">Sepia</string>
+    <string name="action_sharpen">Sharpen</string>
+    <string name="action_temperature">Temperature</string>
+    <string name="action_tint">Tint</string>
+    <string name="action_vignette">Vignette</string>
 </resources>
