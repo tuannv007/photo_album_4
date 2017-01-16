@@ -24,6 +24,7 @@ import com.framgia.photoeditor.data.model.Control;
 import com.framgia.photoeditor.ui.changecolor.ChangeColorFragment;
 import com.framgia.photoeditor.ui.framgent.adjusment.AdjustFragment;
 import com.framgia.photoeditor.ui.framgent.HighlightFragment;
+import com.framgia.photoeditor.ui.framgent.cropimage.CropImageFragment;
 import com.framgia.photoeditor.ui.framgent.effect.EffectFragment;
 import com.framgia.photoeditor.util.Constant;
 import com.framgia.photoeditor.util.Util;
@@ -56,6 +57,7 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     private AdjustFragment mAdjustFragment;
     private ChangeColorFragment mColorFragment;
     private EffectFragment mEffectFragment;
+    private CropImageFragment mCropImageFragment;
 
     public static Intent getEditImageIntent(Context context, String pathImage) {
         Intent intent = new Intent(context, EditImageActivity.class);
@@ -122,7 +124,11 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
                 setFragment(mAdjustFragment);
                 break;
             case FEATURE_CROP:
-                // TODO: 1/11/2017 feature crop image
+                mLinearEdit.setVisibility(View.GONE);
+                if (mCropImageFragment == null) {
+                    mCropImageFragment = CropImageFragment.newInstance(mBitmapImage);
+                }
+                setFragment(mCropImageFragment);
                 break;
             case FEATURE_HIGHLIGHT:
                 mLinearEdit.setVisibility(View.GONE);
