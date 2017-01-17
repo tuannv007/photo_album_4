@@ -4,9 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.widget.Toast;
 
@@ -47,22 +44,42 @@ public class Util {
         return bmOut;
     }
 
-    public static boolean saveImage(Bitmap finalBitmap) {
-        String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + Constant.FOLDER_NAME);
-        myDir.mkdirs();
-        String fname = getTime() + Constant.DATA_JPEG;
-        File file = new File(myDir, fname);
+    public static boolean saveImage(Bitmap bitmap) {
+        String nameFile = getTime() + Constant.DATA_JPEG;
+        File file = new File(getFilePathImage(), nameFile);
         if (file.exists()) file.delete();
         try {
             FileOutputStream out = new FileOutputStream(file);
-            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.flush();
             out.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    private static File getFilePathImage() {
+        String root = Environment.getExternalStorageDirectory().toString();
+        File dirImageSaved = new File(root + Constant.FOLDER_NAME);
+        if (!dirImageSaved.exists()) dirImageSaved.mkdirs();
+        return dirImageSaved;
+    }
+
+    public static String saveImageUri(Bitmap bitmap) {
+        String nameFile = getTime() + Constant.DATA_JPEG;
+        File file = new File(getFilePathImage(), nameFile);
+        if (file.exists()) file.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+            return getFilePathImage() + "/" + nameFile;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
         }
     }
 
