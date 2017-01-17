@@ -17,6 +17,7 @@ public interface ImageFolderContract {
         void pickSingleImage(String string);
         void pickMultipleImage(ArrayList<String> stringArrayList);
         void updateListImageFolder(List<LocalImageFolder> imageFolders);
+        boolean checkCameraHardware(Context context);
     }
 
     interface Presenter {
