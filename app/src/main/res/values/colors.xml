@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="color_grey_800">#37474F</color>
-    <color name="color_teal_700">#00796b</color>
+    <color name="color_teal_700">#FF2D3948</color>
     <color name="color_pink_200">#FF4081</color>
     <color name="color_grey_600">#757575</color>
     <color name="color_blue_400">#2979FF</color>
@@ -11,4 +11,5 @@
     <color name="color_purple_200">#9C27B0</color>
     <color name="color_green">#00ff00</color>
     <color name="color_blue">#070aed</color>
+    <color name="color_teal_500">#009688</color>
 </resources>

@@ -72,6 +72,7 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
         if (bundle != null) mPathImage = bundle.getString(BUNDLE_PATH_IMAGE);
     }
 
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

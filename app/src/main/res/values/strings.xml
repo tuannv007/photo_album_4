@@ -61,4 +61,11 @@
     <string name="action_temperature">Temperature</string>
     <string name="action_tint">Tint</string>
     <string name="action_vignette">Vignette</string>
+    <string name="text_merge_photo">Merge Image</string>
+    <string name="title_permission_storage">Need Storage Permission</string>
+    <string name="msg_permission_storage">This app needs access storage permission.</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_grant">Grant</string>
+    <string name="title_permission_camera">Need Camera Permission</string>
+    <string name="msg_permission_camera">This app needs phone permission.</string>
 </resources>
