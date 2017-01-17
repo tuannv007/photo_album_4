@@ -2,7 +2,9 @@ package com.framgia.photoeditor.ui.imagefolder;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,7 @@ import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.LocalImageFolder;
 import com.framgia.photoeditor.ui.editimage.EditImageActivity;
 import com.framgia.photoeditor.ui.pickimage.ImageSelectorActivity;
+import com.framgia.photoeditor.util.RequestPermissionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.framgia.photoeditor.util.RequestPermissionUtils.PERMISSION_CALLBACK_CAMERA;
 import static com.framgia.photoeditor.util.Constant.ImageSelector.BUNDLE_LIST_IMAGE;
 import static com.framgia.photoeditor.util.Constant.ImageSelector.BUNDLE_TYPE_PICK_IMAGE;
 import static com.framgia.photoeditor.util.Constant.ImageSelector.DATA_PICK_MULTIPLE_IMAGE;
@@ -58,6 +62,7 @@ public class ImageFolderActivity extends AppCompatActivity
         mPresenter = new ImageFolderPresent(this);
         mPresenter.getListImageFolder(this);
     }
+
     @Override
     public void start() {
         setSupportActionBar(mToolbar);
@@ -90,6 +95,13 @@ public class ImageFolderActivity extends AppCompatActivity
         }
     }
 
+    @OnClick(R.id.fab_camera)
+    void clickOpenCamera() {
+        if (checkCameraHardware(this) && !RequestPermissionUtils.requestCamera(this)) {
+            // TODO: 1/17/2017  open camera to capture image
+        }
+    }
+
     @Override
     public void pickSingleImage(String string) {
         startActivity(EditImageActivity.getEditImageIntent(this, string));
@@ -105,9 +117,25 @@ public class ImageFolderActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean checkCameraHardware(Context context) {
+        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
+    }
+
+    @Override
     public void pickImageFolder(LocalImageFolder imageFolder) {
         startActivityForResult(
             ImageSelectorActivity.getProfileIntent(this, imageFolder, mTypePickImage),
             REQUEST_SELECTOR_IMAGE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_CALLBACK_CAMERA
+            && grantResults.length > 0
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // TODO: 1/17/2017  open camera to capture image
+        }
     }
 }
