@@ -2,20 +2,25 @@ package com.framgia.photoeditor.ui.imgtovideo;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import com.facebook.share.ShareApi;
 import com.facebook.share.model.ShareVideo;
 import com.facebook.share.model.ShareVideoContent;
+import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.Image;
 import com.framgia.photoeditor.util.Util;
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
+import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
+import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +43,28 @@ public class SlideEditorPresenter implements SlideEditorContract.Presenter {
         mContext = context;
         mView = view;
         mFfmpeg = FFmpeg.getInstance(mContext);
+        try {
+            //Load the binary
+            mFfmpeg.loadBinary(new LoadBinaryResponseHandler() {
+                @Override
+                public void onStart() {
+                }
+
+                @Override
+                public void onFailure() {
+                }
+
+                @Override
+                public void onSuccess() {
+                }
+
+                @Override
+                public void onFinish() {
+                }
+            });
+        } catch (FFmpegNotSupportedException e) {
+            // Handle if FFmpeg is not supported by device
+        }
     }
 
     @Override
@@ -127,6 +154,7 @@ public class SlideEditorPresenter implements SlideEditorContract.Presenter {
                 "/" + path);
         if (fileOut.exists()) fileOut.delete();
     }
+
 
     @Override
     public String[] mergeAudio(String musicUri, String outputFile) {

@@ -80,4 +80,5 @@
     <string name="title_collage_4">Type4</string>
     <string name="title_collage_5">Type5</string>
     <string name="title_collage_6">Type6</string>
+    <string name="msg_converting">Video converting</string>
 </resources>

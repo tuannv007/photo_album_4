@@ -109,6 +109,8 @@ public class SlideEditorActivity extends AppCompatActivity implements SlideEdito
     public void initProgress() {
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setTitle(getResources().getString(R.string.loading));
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setMessage(getResources().getString(R.string.msg_converting));
     }
 
     @Override
@@ -153,8 +155,7 @@ public class SlideEditorActivity extends AppCompatActivity implements SlideEdito
             String musicUri = data.getData().getPath();
             mPresenter.executeFFMPEG(mPresenter.mergeAudio(musicUri, OUTPUT_MUSIC), true,
                 OUTPUT_MUSIC);
-        }
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        } else mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -173,11 +174,11 @@ public class SlideEditorActivity extends AppCompatActivity implements SlideEdito
         initProgress();
         initMediaPlayer();
         mPresenter.convertVideo(mImages);
+        mCallbackManager = CallbackManager.Factory.create();
     }
 
     @Override
     public void initFacebook() {
-        mCallbackManager = CallbackManager.Factory.create();
         List<String> permissionNeeds = Arrays.asList(Constant.PREMISTION_FACEBOOK);
         LoginManager loginManager = LoginManager.getInstance();
         loginManager.logInWithPublishPermissions(this, permissionNeeds);

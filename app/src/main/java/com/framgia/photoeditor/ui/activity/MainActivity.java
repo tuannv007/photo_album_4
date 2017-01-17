@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.framgia.photoeditor.util.Constant.ImageSelector.BUNDLE_TYPE_START_MAIN;
+import static com.framgia.photoeditor.util.RequestPermissionUtils.PERMISSION_CALLBACK_STORAGE;
 import static com.framgia.photoeditor.util.Constant.ImageSelector.DATA_PICK_MULTIPLE_IMAGE;
 import static com.framgia.photoeditor.util.Constant.ImageSelector.DATA_PICK_SINGLE_IMAGE;
 import static com.framgia.photoeditor.util.RequestPermissionUtils.PERMISSION_CALLBACK_STORAGE;
