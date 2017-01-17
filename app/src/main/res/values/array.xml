@@ -7,7 +7,6 @@
         <item>@drawable/ic_crop</item>
         <item>@drawable/ic_highlight</item>
         <item>@drawable/ic_orientation</item>
-        <item>@drawable/ic_gamma</item>
     </integer-array>
     <string-array name="title_control">
         <item>@string/feature_effect</item>
@@ -16,7 +15,6 @@
         <item>@string/feature_crop</item>
         <item>@string/feature_highlight</item>
         <item>@string/feature_orientation</item>
-        <item>@string/feature_gamma</item>
     </string-array>
     <integer-array name="image_effect">
         <item>@drawable/ic_filter_none</item>

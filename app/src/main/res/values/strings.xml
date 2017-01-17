@@ -26,7 +26,6 @@
     <string name="feature_crop">Crop</string>
     <string name="feature_highlight">Highlight</string>
     <string name="feature_orientation">Orientation</string>
-    <string name="feature_gamma">Gamma</string>
     <string name="feature_brightness">Brightness</string>
     <string name="feature_hue">Hue</string>
     <string name="feature_contrast">Contrast</string>
