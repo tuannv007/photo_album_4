@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +27,7 @@ import com.framgia.photoeditor.ui.framgent.adjusment.AdjustFragment;
 import com.framgia.photoeditor.ui.framgent.HighlightFragment;
 import com.framgia.photoeditor.ui.framgent.cropimage.CropImageFragment;
 import com.framgia.photoeditor.ui.framgent.effect.EffectFragment;
+import com.framgia.photoeditor.ui.framgent.orientation.OrientationFragment;
 import com.framgia.photoeditor.util.Constant;
 import com.framgia.photoeditor.util.Util;
 
@@ -58,6 +60,7 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     private ChangeColorFragment mColorFragment;
     private EffectFragment mEffectFragment;
     private CropImageFragment mCropImageFragment;
+    private OrientationFragment mOrientationFragment;
 
     public static Intent getEditImageIntent(Context context, String pathImage) {
         Intent intent = new Intent(context, EditImageActivity.class);
@@ -101,47 +104,43 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     public void onItemClickListener(int position) {
         Constant.Feature feature = Constant.Feature.values()[position];
         feature.setPosition(position);
+        mLinearEdit.setVisibility(View.GONE);
         switch (feature) {
             case FEATURE_EFFECT:
-                mLinearEdit.setVisibility(View.GONE);
                 if (mEffectFragment == null) {
                     mEffectFragment = EffectFragment.newInstance(mBitmapImage);
                 }
                 setFragment(mEffectFragment);
                 break;
             case FEATURE_COLOR:
-                mLinearEdit.setVisibility(View.GONE);
                 if (mColorFragment == null) {
                     mColorFragment = ChangeColorFragment.newInstance(mPathImage);
                 }
                 setFragment(mColorFragment);
                 break;
             case FEATURE_ADJUST:
-                mLinearEdit.setVisibility(View.GONE);
                 if (mAdjustFragment == null) {
                     mAdjustFragment = AdjustFragment.newInstance(mBitmapImage);
                 }
                 setFragment(mAdjustFragment);
                 break;
             case FEATURE_CROP:
-                mLinearEdit.setVisibility(View.GONE);
                 if (mCropImageFragment == null) {
                     mCropImageFragment = CropImageFragment.newInstance(mBitmapImage);
                 }
                 setFragment(mCropImageFragment);
                 break;
             case FEATURE_HIGHLIGHT:
-                mLinearEdit.setVisibility(View.GONE);
                 if (mHighlightFragment == null) {
                     mHighlightFragment = HighlightFragment.newInstance(mBitmapImage);
                 }
                 setFragment(mHighlightFragment);
                 break;
             case FEATURE_ORIENTATION:
-                // TODO: 1/11/2017 feature change orientation of image
-                break;
-            case FEATURE_GAMMA:
-                // TODO: 1/11/2017 change gamma of image
+                if (mOrientationFragment == null) {
+                    mOrientationFragment = OrientationFragment.newInstance(mBitmapImage);
+                }
+                setFragment(mOrientationFragment);
                 break;
             default:
                 break;
@@ -167,10 +166,17 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     @Override
     public void start() {
         setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAdapter = new ControlImageAdapter(getApplicationContext(), this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager
             .HORIZONTAL, false));
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) onBackPressed();
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -210,5 +216,14 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
             .beginTransaction()
             .replace(R.id.frame_layout, fragment)
             .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            mLinearEdit.setVisibility(View.VISIBLE);
+        } else super.onBackPressed();
     }
 }

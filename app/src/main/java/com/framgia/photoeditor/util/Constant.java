@@ -64,8 +64,7 @@ public class Constant {
         FEATURE_ADJUST(2),
         FEATURE_CROP(3),
         FEATURE_HIGHLIGHT(4),
-        FEATURE_ORIENTATION(5),
-        FEATURE_GAMMA(6);
+        FEATURE_ORIENTATION(5);
         private int mPosition;
 
         Feature(int i) {
@@ -75,7 +74,7 @@ public class Constant {
         public void setPosition(int position) {
             this.mPosition = position;
         }
-    }
+        }
 
     public static final String TYPE_MP4 = ".mp4";
     public static final String RESIZE_IMAGE = "/resize_";
