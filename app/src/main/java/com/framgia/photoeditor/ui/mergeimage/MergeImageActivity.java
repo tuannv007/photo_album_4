@@ -2,12 +2,15 @@ package com.framgia.photoeditor.ui.mergeimage;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
 import com.framgia.photoeditor.R;
@@ -54,6 +57,7 @@ public class MergeImageActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collage);
         ButterKnife.bind(this);
+        mCustomMergeImage = new CustomMergeImage(this);
         mPresenter = new MergeImagePresenter(this);
     }
 
@@ -66,6 +70,21 @@ public class MergeImageActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Bitmap bitmap = Util.getBitmapFromCustomView(mCustomMergeImage);
+        if (item.getItemId() == R.id.action_done) {
+            mPresenter.handleSave(bitmap);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_activity, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public void start() {
         setSupportActionBar(mToolbar);
         mAdapter = new MergeImageAdapter(this, this);
@@ -74,7 +93,6 @@ public class MergeImageActivity extends AppCompatActivity
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager
             .HORIZONTAL, false));
         mRecyclerView.setAdapter(mAdapter);
-        mCustomMergeImage = new CustomMergeImage(this);
         mCustomMergeImage.setEvent(this);
     }
 
@@ -95,6 +113,16 @@ public class MergeImageActivity extends AppCompatActivity
         mLayoutItems.add(new Control(R.drawable.ic_collage3, getString(R.string.title_collage_3)));
         mLayoutItems.add(new Control(R.drawable.ic_collage4, getString(R.string.title_collage_4)));
         mLayoutItems.add(new Control(R.drawable.ic_collage5, getString(R.string.title_collage_5)));
+    }
+
+    @Override
+    public void saveSuccess() {
+        Util.showToast(getApplicationContext(), R.string.save_sucsess);
+    }
+
+    @Override
+    public void saveError() {
+        Util.showToast(getApplicationContext(), R.string.save_error);
     }
 
     @Override

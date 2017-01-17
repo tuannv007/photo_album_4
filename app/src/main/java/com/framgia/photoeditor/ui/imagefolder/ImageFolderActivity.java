@@ -188,7 +188,6 @@ public class ImageFolderActivity extends AppCompatActivity
         if (requestCode == PERMISSION_CALLBACK_CAMERA
             && grantResults.length > 0
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            // TODO: 1/17/2017  open camera to capture image
         }
     }
 }

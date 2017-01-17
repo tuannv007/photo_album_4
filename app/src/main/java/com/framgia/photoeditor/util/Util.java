@@ -3,8 +3,13 @@ package com.framgia.photoeditor.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -58,6 +63,19 @@ public class Util {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static Bitmap getBitmapFromCustomView(View view) {
+        Bitmap returnedBitmap =
+            Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(returnedBitmap);
+        Drawable bgDrawable = view.getBackground();
+        if (bgDrawable != null)
+            bgDrawable.draw(canvas);
+        else
+            canvas.drawColor(Color.WHITE);
+        view.draw(canvas);
+        return returnedBitmap;
     }
 
     private static File getFilePathImage() {
@@ -171,6 +189,10 @@ public class Util {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         return stream.toByteArray();
+    }
+
+    public static Bitmap getBitmapFromImv(ImageView imageView) {
+        return ((BitmapDrawable) imageView.getDrawable()).getBitmap();
     }
 }
 

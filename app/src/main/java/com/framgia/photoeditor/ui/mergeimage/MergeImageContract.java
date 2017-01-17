@@ -10,6 +10,8 @@ public class MergeImageContract {
     interface View extends BaseView {
         void start();
         void initData();
+        void saveSuccess();
+        void saveError();
     }
 
     interface Presenter extends BasePresenter {

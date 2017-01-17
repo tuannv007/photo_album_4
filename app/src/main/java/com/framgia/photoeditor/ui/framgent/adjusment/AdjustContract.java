@@ -13,7 +13,6 @@ public interface AdjustContract {
         void updateImgBlackWhite(Bitmap bitmap);
         void hideButtonBlackWhite();
         void updateImage(Bitmap bitmap);
-        void showProgressDialog();
         void hideProgressDialog();
     }
 
