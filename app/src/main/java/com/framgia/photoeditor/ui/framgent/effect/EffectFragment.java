@@ -203,7 +203,7 @@ public class EffectFragment extends Fragment
         mRecyclerView.setNestedScrollingEnabled(true);
         mAdapter = new EffectAdapter(getActivity(), this);
         mRecyclerView.setAdapter(mAdapter);
-        mCurrentEffects = Effects.EFFECT_FILLLIGHT;
+        mCurrentEffects = Effects.EFFECT_NODE;
     }
 
     @Override
@@ -228,8 +228,7 @@ public class EffectFragment extends Fragment
         TypedArray resource = res.obtainTypedArray(R.array.image_effect);
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < resource.length(); i++) {
-            resource.recycle();
-            list.add(resource.getResourceId(i, 0));
+            list.add(resource.getResourceId(i, -1));
         }
         return list;
     }

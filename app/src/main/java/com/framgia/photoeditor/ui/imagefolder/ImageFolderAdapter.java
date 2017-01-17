@@ -53,7 +53,7 @@ public class ImageFolderAdapter extends RecyclerView.Adapter<ImageFolderAdapter.
 
     @Override
     public int getItemCount() {
-        return mListImageFolder.size();
+        return mListImageFolder == null ? 0 : mListImageFolder.size();
     }
 
     public class ImageFolderHolder extends RecyclerView.ViewHolder {
@@ -72,9 +72,12 @@ public class ImageFolderAdapter extends RecyclerView.Adapter<ImageFolderAdapter.
         private void bind(int position) {
             LocalImageFolder folder = mListImageFolder.get(position);
             if (folder == null) return;
-            Glide.with(mContext)
-                .load(folder.getListImageOfFolder().get(0))
-                .into(mImagePicture);
+            if (folder.getListImageOfFolder() != null &&
+                folder.getListImageOfFolder().size() > 0) {
+                Glide.with(mContext)
+                    .load(folder.getListImageOfFolder().get(0))
+                    .into(mImagePicture);
+            }
             mTextFolderName
                 .setText(folder.getFolderName() != null ? folder.getFolderName() : "");
             mTextNumberImage.setText(

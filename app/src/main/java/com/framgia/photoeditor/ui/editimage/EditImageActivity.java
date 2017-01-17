@@ -3,7 +3,6 @@ package com.framgia.photoeditor.ui.editimage;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -23,8 +22,8 @@ import android.widget.LinearLayout;
 import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.Control;
 import com.framgia.photoeditor.ui.changecolor.ChangeColorFragment;
-import com.framgia.photoeditor.ui.framgent.adjusment.AdjustFragment;
 import com.framgia.photoeditor.ui.framgent.HighlightFragment;
+import com.framgia.photoeditor.ui.framgent.adjusment.AdjustFragment;
 import com.framgia.photoeditor.ui.framgent.cropimage.CropImageFragment;
 import com.framgia.photoeditor.ui.framgent.effect.EffectFragment;
 import com.framgia.photoeditor.ui.framgent.orientation.OrientationFragment;
@@ -58,7 +57,6 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     private HighlightFragment mHighlightFragment;
     private AdjustFragment mAdjustFragment;
     private ChangeColorFragment mColorFragment;
-    private EffectFragment mEffectFragment;
     private CropImageFragment mCropImageFragment;
     private OrientationFragment mOrientationFragment;
 
@@ -107,10 +105,7 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
         mLinearEdit.setVisibility(View.GONE);
         switch (feature) {
             case FEATURE_EFFECT:
-                if (mEffectFragment == null) {
-                    mEffectFragment = EffectFragment.newInstance(mBitmapImage);
-                }
-                setFragment(mEffectFragment);
+                setFragment(EffectFragment.newInstance(mBitmapImage));
                 break;
             case FEATURE_COLOR:
                 if (mColorFragment == null) {
@@ -187,13 +182,12 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     @Override
     public List<Control> getListDataControl() {
         mListControls.clear();
-        Resources res = getResources();
-        TypedArray resource = res.obtainTypedArray(R.array.image_control);
+        TypedArray resource = getResources().obtainTypedArray(R.array.image_control);
         String[] title =
             getResources().getStringArray(R.array.title_control);
-        for (int i = 0; i < resource.length(); i++) {
-            resource.recycle();
-            mListControls.add(new Control(resource.getResourceId(i, 0), title[i]));
+        int size = resource.length();
+        for (int i = 0; i < size; i++) {
+            mListControls.add(new Control(resource.getResourceId(i, -1), title[i]));
         }
         return mListControls;
     }
