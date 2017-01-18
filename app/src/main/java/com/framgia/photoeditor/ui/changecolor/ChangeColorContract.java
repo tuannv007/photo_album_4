@@ -8,6 +8,8 @@ import com.framgia.photoeditor.ui.base.BaseView;
 public interface ChangeColorContract {
     interface View extends BaseView {
         void changeColor();
-        void getBitmapImage();
+    }
+
+    interface Presenter {
     }
 }
