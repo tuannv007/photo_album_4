@@ -67,4 +67,6 @@
     <string name="action_grant">Grant</string>
     <string name="title_permission_camera">Need Camera Permission</string>
     <string name="msg_permission_camera">This app needs phone permission.</string>
+    <string name="text_flip">Flip</string>
+    <string name="text_rotate">Rotate</string>
 </resources>

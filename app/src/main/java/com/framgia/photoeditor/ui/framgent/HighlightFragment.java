@@ -71,8 +71,8 @@ public class HighlightFragment extends Fragment implements View.OnTouchListener 
             public void run() {
                 mBitmap = centerBitmap(mBitmap, mImageEdit.getWidth(),
                     mImageEdit.getHeight());
-                mImageEdit.getLayoutParams().height = mImageEdit.getHeight();
-                mImageEdit.getLayoutParams().width = mImageEdit.getWidth();
+                mImageEdit.getLayoutParams().height = mBitmap.getHeight();
+                mImageEdit.getLayoutParams().width = mBitmap.getWidth();
                 mImageEdit.requestLayout();
                 mHighLightDrawable =
                     new HighLightDrawable(getResources(), mBitmap, mFingerPoint);
