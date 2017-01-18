@@ -19,7 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70"
         android:gravity="bottom"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/linear_brightness"
@@ -59,7 +60,7 @@
             <ImageView
                 android:layout_width="@dimen/dp_30"
                 android:layout_height="@dimen/dp_30"
-                android:src="@drawable/ic_black_white"/>
+                app:srcCompat="@drawable/ic_contrast_white"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -153,5 +154,36 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/dp_16"
             app:srcCompat="@drawable/ic_done_white_24dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_feature_black_white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_70"
+        android:background="@color/color_grey_800"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/image_undo_black_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
+            android:padding="@dimen/dp_16"
+            app:srcCompat="@drawable/ic_undo_white"/>
+
+        <ImageView
+            android:id="@+id/image_redo_black_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
+            android:padding="@dimen/dp_16"
+            app:srcCompat="@drawable/ic_contrast_white"/>
+
     </LinearLayout>
 </LinearLayout>

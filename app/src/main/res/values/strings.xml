@@ -69,4 +69,9 @@
     <string name="msg_permission_camera">This app needs phone permission.</string>
     <string name="text_flip">Flip</string>
     <string name="text_rotate">Rotate</string>
+    <string name="title_effect">Effect</string>
+    <string name="title_color">Color</string>
+    <string name="title_adjust">Crop</string>
+    <string name="title_highlight">Highlight</string>
+    <string name="title_rotation">Rotate</string>
 </resources>

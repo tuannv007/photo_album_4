@@ -8,10 +8,10 @@ import com.framgia.photoeditor.util.Util;
 /**
  * Created by tuanbg on 1/13/17.
  */
-public class AdjustPresenter implements AdjusmentContract.Presenter {
-    private AdjusmentContract.View mView;
+public class AdjustPresenter implements AdjustContract.Presenter {
+    private AdjustContract.View mView;
 
-    public AdjustPresenter(AdjusmentContract.View view) {
+    public AdjustPresenter(AdjustContract.View view) {
         mView = view;
         mView.start();
     }

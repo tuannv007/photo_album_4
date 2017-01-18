@@ -8,9 +8,10 @@ import com.framgia.photoeditor.ui.base.BaseView;
 /**
  * Created by tuanbg on 1/13/17.
  */
-public interface AdjusmentContract {
+public interface AdjustContract {
     interface View extends BaseView {
         void updateImgBlackWhite(Bitmap bitmap);
+        void blackWhiteGone();
     }
 
     interface Presenter extends BasePresenter {

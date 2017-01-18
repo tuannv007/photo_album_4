@@ -7,7 +7,10 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.media.ExifInterface;
+import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 
 import java.io.IOException;
 
@@ -115,5 +118,11 @@ public class UtilImage {
         paint.setColorFilter(new ColorMatrixColorFilter(cm));
         canvas.drawBitmap(bitmap, 0, 0, paint);
         return bitmapResult;
+    }
+
+    public static Point getDisplaySize(FragmentActivity activity) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return new Point(metrics.widthPixels, metrics.heightPixels);
     }
 }
