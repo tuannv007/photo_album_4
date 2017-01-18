@@ -19,10 +19,13 @@ import android.view.ViewGroup;
 
 import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.Effects;
+import com.framgia.photoeditor.ui.base.FragmentView;
+import com.framgia.photoeditor.ui.editimage.EditImageActivity;
+import com.framgia.photoeditor.ui.framgent.HighlightFragment;
 import com.framgia.photoeditor.util.GLToolbox;
 import com.framgia.photoeditor.util.TextureRenderer;
-import com.framgia.photoeditor.util.Util;
 
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,14 +36,13 @@ import javax.microedition.khronos.opengles.GL10;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.framgia.photoeditor.util.Constant.Bundle.BUNDLE_BITMAP;
-
 /**
  * Created by Nhahv on 1/13/2017.
  * <></>
  */
 public class EffectFragment extends Fragment
-    implements GLSurfaceView.Renderer, EffectContract.View, EffectAdapter.EventEffect {
+    implements GLSurfaceView.Renderer, EffectContract.View, EffectAdapter.EventEffect,
+    FragmentView {
     public static final String SCALE = "scale";
     public static final String BLACK = "black";
     public static final String WHITE = "white";
@@ -61,6 +63,7 @@ public class EffectFragment extends Fragment
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     private Bitmap mBitmap;
+    private Bitmap mBitmapResult;
     private EffectPresenter mPresenter;
     private EffectAdapter mAdapter;
     private int[] mTextures = new int[2];
@@ -71,23 +74,10 @@ public class EffectFragment extends Fragment
     private boolean mInitialized;
     private Effects mCurrentEffects;
     private EffectContext mEffectContext;
+    private HighlightFragment.EventBackToActivity mEventBackToActivity;
 
-    public static EffectFragment newInstance(Bitmap bitmap) {
-        EffectFragment fragment = new EffectFragment();
-        byte[] bytes = Util.convertBitmapToByte(bitmap);
-        Bundle bundle = new Bundle();
-        bundle.putByteArray(BUNDLE_BITMAP, bytes);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    private void getDataFromActivity() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            byte[] bytes = bundle.getByteArray(BUNDLE_BITMAP);
-            if (bytes == null) return;
-            mBitmap = Util.decodeFromByte(bytes);
-        }
+    public static EffectFragment newInstance() {
+        return new EffectFragment();
     }
 
     @Override
@@ -95,7 +85,6 @@ public class EffectFragment extends Fragment
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_effect, container, false);
         ButterKnife.bind(this, view);
-        getDataFromActivity();
         mPresenter = new EffectPresenter(this);
         mPresenter.getListEffect();
         return view;
@@ -103,6 +92,11 @@ public class EffectFragment extends Fragment
 
     public void setCurrentEffect(Effects effects) {
         mCurrentEffects = effects;
+    }
+
+    @Override
+    public void setEventBackToActivity(HighlightFragment.EventBackToActivity event) {
+        mEventBackToActivity = event;
     }
 
     private void loadTextures() {
@@ -181,6 +175,24 @@ public class EffectFragment extends Fragment
             applyEffect();
         }
         renderResult();
+        mBitmapResult = takeScreenshot(gl);
+    }
+
+    @Override
+    public Bitmap takeScreenshot(GL10 gl10) {
+        final int width = mEffectView.getWidth();
+        final int height = mEffectView.getHeight();
+        IntBuffer ib = IntBuffer.allocate(width * height);
+        IntBuffer ibt = IntBuffer.allocate(width * height);
+        gl10.glReadPixels(0, 0, width, height, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, ib);
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                ibt.put((height - i - 1) * width + j, ib.get(i * width + j));
+            }
+        }
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        bitmap.copyPixelsFromBuffer(ibt);
+        return bitmap;
     }
 
     @Override
@@ -194,6 +206,7 @@ public class EffectFragment extends Fragment
 
     @Override
     public void start() {
+        mBitmap = EditImageActivity.sBitmap;
         mEffectView.setEGLContextClientVersion(2);
         mEffectView.setRenderer(this);
         mEffectView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
@@ -231,5 +244,11 @@ public class EffectFragment extends Fragment
             list.add(resource.getResourceId(i, -1));
         }
         return list;
+    }
+
+    @Override
+    public void saveBitmap() {
+        EditImageActivity.sBitmap = mBitmapResult;
+        if (mEventBackToActivity != null) mEventBackToActivity.backToActivity();
     }
 }

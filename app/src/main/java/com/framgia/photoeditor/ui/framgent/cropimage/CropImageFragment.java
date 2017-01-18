@@ -2,6 +2,7 @@ package com.framgia.photoeditor.ui.framgent.cropimage;
 
 import android.graphics.Bitmap;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,42 +11,29 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.framgia.photoeditor.R;
+import com.framgia.photoeditor.ui.base.FragmentView;
+import com.framgia.photoeditor.ui.editimage.EditImageActivity;
+import com.framgia.photoeditor.ui.framgent.HighlightFragment;
 import com.framgia.photoeditor.ui.widget.crop.CropBorderView;
 import com.framgia.photoeditor.ui.widget.crop.CropImageView;
-import com.framgia.photoeditor.util.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.framgia.photoeditor.util.Constant.Bundle.BUNDLE_BITMAP;
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CropImageFragment extends Fragment implements CropImageContract.View {
+public class CropImageFragment extends Fragment implements CropImageContract.View, FragmentView {
     private CropImagePresenter mPresenter;
     private Bitmap mBitmap;
     @BindView(R.id.image_crop)
     CropImageView mCropImageView;
     @BindView(R.id.view_border)
     CropBorderView mBorderView;
+    private HighlightFragment.EventBackToActivity mEventBackToActivity;
 
-    public static CropImageFragment newInstance(Bitmap bitmap) {
-        CropImageFragment fragment = new CropImageFragment();
-        byte[] bytes = Util.convertBitmapToByte(bitmap);
-        Bundle bundle = new Bundle();
-        bundle.putByteArray(BUNDLE_BITMAP, bytes);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    private void getDataFromActivity() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            byte[] bytes = bundle.getByteArray(BUNDLE_BITMAP);
-            if (bytes == null) return;
-            mBitmap = Util.decodeFromByte(bytes);
-        }
+    public static CropImageFragment newInstance() {
+        return new CropImageFragment();
     }
 
     @Override
@@ -53,14 +41,26 @@ public class CropImageFragment extends Fragment implements CropImageContract.Vie
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_crop_image, container, false);
         ButterKnife.bind(this, view);
-        getDataFromActivity();
         mPresenter = new CropImagePresenter(this, mBitmap);
         return view;
     }
 
     @Override
     public void start() {
+        mBitmap = EditImageActivity.sBitmap;
         mCropImageView.setImageBitmap(mBitmap);
+    }
+
+    @Override
+    public void saveBitmap() {
+        cropImage();
+        EditImageActivity.sBitmap = ((BitmapDrawable) mCropImageView.getDrawable()).getBitmap();
+        if (mEventBackToActivity != null) mEventBackToActivity.backToActivity();
+    }
+
+    @Override
+    public void setEventBackToActivity(HighlightFragment.EventBackToActivity event) {
+        mEventBackToActivity = event;
     }
 
     @Override

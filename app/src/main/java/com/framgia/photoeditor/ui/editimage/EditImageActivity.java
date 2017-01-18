@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +20,7 @@ import android.widget.LinearLayout;
 
 import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.Control;
+import com.framgia.photoeditor.ui.base.FragmentView;
 import com.framgia.photoeditor.ui.changecolor.ChangeColorFragment;
 import com.framgia.photoeditor.ui.framgent.HighlightFragment;
 import com.framgia.photoeditor.ui.framgent.adjusment.AdjustFragment;
@@ -29,6 +29,7 @@ import com.framgia.photoeditor.ui.framgent.effect.EffectFragment;
 import com.framgia.photoeditor.ui.framgent.orientation.OrientationFragment;
 import com.framgia.photoeditor.util.Constant;
 import com.framgia.photoeditor.util.Util;
+import com.framgia.photoeditor.util.UtilImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ import static com.framgia.photoeditor.util.Constant.Bundle.BUNDLE_PATH_IMAGE;
 import static com.framgia.photoeditor.util.Constant.Request.REQUEST_CODE_CAMERA;
 
 public class EditImageActivity extends AppCompatActivity implements EditImageContract.View,
-    ControlImageAdapter.OnItemClickListener {
+    ControlImageAdapter.OnItemClickListener, HighlightFragment.EventBackToActivity {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.image_edit)
@@ -49,11 +50,11 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     RecyclerView mRecyclerView;
     @BindView(R.id.linear_edit)
     LinearLayout mLinearEdit;
+    public static Bitmap sBitmap;
     private ControlImageAdapter mAdapter;
     private EditImagePresenter mPresenter;
     private List<Control> mListControls = new ArrayList<>();
     private String mPathImage;
-    private Bitmap mBitmapImage;
     private HighlightFragment mHighlightFragment;
     private AdjustFragment mAdjustFragment;
     private ChangeColorFragment mColorFragment;
@@ -105,35 +106,42 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
         mLinearEdit.setVisibility(View.GONE);
         switch (feature) {
             case FEATURE_EFFECT:
-                setFragment(EffectFragment.newInstance(mBitmapImage));
+                EffectFragment fragment = EffectFragment.newInstance();
+                fragment.setEventBackToActivity(this);
+                setFragment(fragment);
                 break;
             case FEATURE_COLOR:
                 if (mColorFragment == null) {
-                    mColorFragment = ChangeColorFragment.newInstance(mPathImage);
+                    mColorFragment = ChangeColorFragment.newInstance();
+                    mColorFragment.setEventBackToActivity(this);
                 }
                 setFragment(mColorFragment);
                 break;
             case FEATURE_ADJUST:
                 if (mAdjustFragment == null) {
-                    mAdjustFragment = AdjustFragment.newInstance(mBitmapImage);
+                    mAdjustFragment = AdjustFragment.newInstance();
+                    mAdjustFragment.setEventBackToActivity(this);
                 }
                 setFragment(mAdjustFragment);
                 break;
             case FEATURE_CROP:
                 if (mCropImageFragment == null) {
-                    mCropImageFragment = CropImageFragment.newInstance(mBitmapImage);
+                    mCropImageFragment = CropImageFragment.newInstance();
+                    mCropImageFragment.setEventBackToActivity(this);
                 }
                 setFragment(mCropImageFragment);
                 break;
             case FEATURE_HIGHLIGHT:
                 if (mHighlightFragment == null) {
-                    mHighlightFragment = HighlightFragment.newInstance(mBitmapImage);
+                    mHighlightFragment = HighlightFragment.newInstance();
+                    mHighlightFragment.setEventBackToActivity(this);
                 }
                 setFragment(mHighlightFragment);
                 break;
             case FEATURE_ORIENTATION:
                 if (mOrientationFragment == null) {
-                    mOrientationFragment = OrientationFragment.newInstance(mBitmapImage);
+                    mOrientationFragment = OrientationFragment.newInstance();
+                    mOrientationFragment.setEventBackToActivity(this);
                 }
                 setFragment(mOrientationFragment);
                 break;
@@ -170,7 +178,20 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) onBackPressed();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            case R.id.action_done:
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+                if (fragment != null && fragment instanceof FragmentView) {
+                    ((FragmentView) fragment).saveBitmap();
+                    return true;
+                }
+                break;
+            default:
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -183,8 +204,7 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     public List<Control> getListDataControl() {
         mListControls.clear();
         TypedArray resource = getResources().obtainTypedArray(R.array.image_control);
-        String[] title =
-            getResources().getStringArray(R.array.title_control);
+        String[] title = getResources().getStringArray(R.array.title_control);
         int size = resource.length();
         for (int i = 0; i < size; i++) {
             mListControls.add(new Control(resource.getResourceId(i, -1), title[i]));
@@ -194,14 +214,12 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
 
     @Override
     public Point getDisplaySize() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        return new Point(metrics.widthPixels, metrics.heightPixels);
+        return UtilImage.getDisplaySize(this);
     }
 
     @Override
     public void updateImage(Bitmap bitmap) {
-        mBitmapImage = bitmap;
+        sBitmap = bitmap;
         mImageEdit.setImageBitmap(bitmap);
     }
 
@@ -219,5 +237,11 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             mLinearEdit.setVisibility(View.VISIBLE);
         } else super.onBackPressed();
+    }
+
+    @Override
+    public void backToActivity() {
+        mImageEdit.setImageBitmap(sBitmap);
+        onBackPressed();
     }
 }

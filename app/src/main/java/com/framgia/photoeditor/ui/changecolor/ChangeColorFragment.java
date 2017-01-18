@@ -1,12 +1,12 @@
 package com.framgia.photoeditor.ui.changecolor;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,8 +17,9 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import com.framgia.photoeditor.R;
-
-import java.io.File;
+import com.framgia.photoeditor.ui.base.FragmentView;
+import com.framgia.photoeditor.ui.editimage.EditImageActivity;
+import com.framgia.photoeditor.ui.framgent.HighlightFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,8 +27,8 @@ import butterknife.ButterKnife;
 /**
  * Created by tuanbg on 1/10/17.
  */
-public class ChangeColorFragment extends Fragment implements ChangeColorContract.View {
-    private static final String KEY_IMAGE = "KEY_IMAGE";
+public class ChangeColorFragment extends Fragment
+    implements ChangeColorContract.View, SeekBar.OnSeekBarChangeListener, FragmentView {
     @BindView(R.id.seek_bar_color_red)
     SeekBar mSbColorRed;
     @BindView(R.id.seek_bar_color_green)
@@ -39,50 +40,23 @@ public class ChangeColorFragment extends Fragment implements ChangeColorContract
     private Bitmap mAfterBitmap;
     private Paint mPaint;
     private Canvas mCanvas;
-    private Bitmap mBaseBitmap;
+    private Bitmap mBitmap;
     private ChangeColorPresenter mPresenter;
+    private HighlightFragment.EventBackToActivity mEventBackToActivity;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public static ChangeColorFragment newInstance() {
+        return new ChangeColorFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_change_color, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_change_color, container, false);
         ButterKnife.bind(this, view);
         mPresenter = new ChangeColorPresenter(this);
+        return view;
     }
-
-    public static ChangeColorFragment newInstance(String url) {
-        Bundle args = new Bundle();
-        args.putString(KEY_IMAGE, url);
-        ChangeColorFragment fragment = new ChangeColorFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    private SeekBar.OnSeekBarChangeListener seekBarChange = new SeekBar.OnSeekBarChangeListener() {
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-            changeColor();
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-        }
-
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        }
-    };
 
     @Override
     public void changeColor() {
@@ -97,29 +71,45 @@ public class ChangeColorFragment extends Fragment implements ChangeColorContract
         ColorMatrix colorMatrix = new ColorMatrix();
         colorMatrix.set(src);
         mPaint.setColorFilter(new ColorMatrixColorFilter(src));
-        mCanvas.drawBitmap(mBaseBitmap, new Matrix(), mPaint);
+        mCanvas.drawBitmap(mBitmap, new Matrix(), mPaint);
         mImageChangeColor.setImageBitmap(mAfterBitmap);
     }
 
     @Override
-    public void getBitmapImage() {
-        Bundle bundle = getArguments();
-        if (bundle == null) return;
-        String uri = bundle.getString(KEY_IMAGE);
-        mBaseBitmap = BitmapFactory.decodeFile(String.valueOf(new File(uri)));
-        mImageChangeColor.setImageBitmap(mBaseBitmap);
+    public void start() {
+        mBitmap = EditImageActivity.sBitmap;
+        mImageChangeColor.setImageBitmap(mBitmap);
+        mSbColorRed.setOnSeekBarChangeListener(this);
+        mSbColorGreen.setOnSeekBarChangeListener(this);
+        mSbColorBlue.setOnSeekBarChangeListener(this);
+        mAfterBitmap = Bitmap
+            .createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), mBitmap.getConfig());
+        mCanvas = new Canvas(mAfterBitmap);
+        mPaint = new Paint();
     }
 
     @Override
-    public void start() {
-        mSbColorRed.setOnSeekBarChangeListener(seekBarChange);
-        mSbColorGreen.setOnSeekBarChangeListener(seekBarChange);
-        mSbColorBlue.setOnSeekBarChangeListener(seekBarChange);
-        getBitmapImage();
-        mAfterBitmap = Bitmap.createBitmap(mBaseBitmap.getWidth(),
-            mBaseBitmap.getHeight(), mBaseBitmap.getConfig());
-        mCanvas = new Canvas(mAfterBitmap);
-        mPaint = new Paint();
+    public void setEventBackToActivity(HighlightFragment.EventBackToActivity event) {
+        mEventBackToActivity = event;
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        changeColor();
+    }
+
+    @Override
+    public void saveBitmap() {
+        EditImageActivity.sBitmap = ((BitmapDrawable) mImageChangeColor.getDrawable()).getBitmap();
+        if (mEventBackToActivity != null) mEventBackToActivity.backToActivity();
     }
 }
 
