@@ -1,6 +1,7 @@
 package com.framgia.photoeditor.ui.mergeimage;
 
-import com.framgia.photoeditor.ui.base.BasePresenter;
+import android.graphics.Bitmap;
+
 import com.framgia.photoeditor.ui.base.BaseView;
 
 /**
@@ -14,6 +15,7 @@ public class MergeImageContract {
         void saveError();
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter {
+        void handleSave(Bitmap bitmap);
     }
 }

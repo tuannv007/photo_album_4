@@ -5,14 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
@@ -27,26 +27,15 @@ import java.util.Locale;
  */
 public class Util {
     public static Bitmap convertImageToBlackWhite(Bitmap src) {
-        int width = src.getWidth();
-        int height = src.getHeight();
-        Bitmap bmOut = Bitmap.createBitmap(width, height, src.getConfig());
-        int A, R, G, B;
-        int pixel;
-        for (int x = 0; x < width; ++x) {
-            for (int y = 0; y < height; ++y) {
-                // get pixel color
-                pixel = src.getPixel(x, y);
-                A = Color.alpha(pixel);
-                R = Color.red(pixel);
-                G = Color.green(pixel);
-                B = Color.blue(pixel);
-                R = (R + G + B) / 3;
-                G = R;
-                B = R;
-                bmOut.setPixel(x, y, Color.argb(A, R, G, B));
-            }
-        }
-        return bmOut;
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0);
+        ColorMatrixColorFilter colorMatrixFilter = new ColorMatrixColorFilter(colorMatrix);
+        Bitmap blackAndWhiteBitmap = src.copy(Bitmap.Config.ARGB_8888, true);
+        Paint paint = new Paint();
+        paint.setColorFilter(colorMatrixFilter);
+        Canvas canvas = new Canvas(blackAndWhiteBitmap);
+        canvas.drawBitmap(blackAndWhiteBitmap, 0, 0, paint);
+        return blackAndWhiteBitmap;
     }
 
     public static boolean saveImage(Bitmap bitmap) {
@@ -101,39 +90,6 @@ public class Util {
         }
     }
 
-    public static Bitmap updateHUE(Bitmap src, float settingHue, float settingSat,
-                                   float settingVal) {
-        int w = src.getWidth();
-        int h = src.getHeight();
-        int[] mapSrcColor = new int[w * h];
-        int[] mapDestColor = new int[w * h];
-        float[] pixelHSV = new float[3];
-        src.getPixels(mapSrcColor, 0, w, 0, 0, w, h);
-        int index = 0;
-        for (int y = 0; y < h; ++y) {
-            for (int x = 0; x < w; ++x) {
-                Color.colorToHSV(mapSrcColor[index], pixelHSV);
-                pixelHSV[0] = pixelHSV[0] + settingHue;
-                if (pixelHSV[0] < Constant.MIN_PIXEL_COLOR_HUE) {
-                    pixelHSV[0] = Constant.MIN_PIXEL_COLOR_HUE;
-                } else if (pixelHSV[0] > Constant.MAX_PIXEL_COLOR_HUE) {
-                    pixelHSV[0] = Constant.MAX_PIXEL_COLOR_HUE;
-                }
-                pixelHSV[1] = pixelHSV[1] + settingSat;
-                if (pixelHSV[1] < Constant.MIN_PIXEL_COLOR_HUE) {
-                    pixelHSV[1] = Constant.MIN_PIXEL_COLOR_HUE;
-                } else if (pixelHSV[1] > 1.0f) pixelHSV[1] = 1.0f;
-                pixelHSV[2] = pixelHSV[2] + settingVal;
-                if (pixelHSV[2] < Constant.MIN_PIXEL_COLOR_HUE) {
-                    pixelHSV[2] = Constant.MIN_PIXEL_COLOR_HUE;
-                } else if (pixelHSV[2] > 1.0f) pixelHSV[2] = 1.0f;
-                mapDestColor[index] = Color.HSVToColor(pixelHSV);
-                index++;
-            }
-        }
-        return Bitmap.createBitmap(mapDestColor, w, h, Bitmap.Config.ARGB_8888);
-    }
-
     public static Bitmap createContrast(Bitmap src, double value) {
         int width = src.getWidth();
         int height = src.getHeight();
@@ -166,6 +122,21 @@ public class Util {
         return bmOut;
     }
 
+    public static Bitmap changeContrast(Bitmap bmp, float contrast, float brightness) {
+        ColorMatrix cm = new ColorMatrix(new float[]{
+            contrast, 0, 0, 0, brightness,
+            0, contrast, 0, 0, brightness,
+            0, 0, contrast, 0, brightness,
+            0, 0, 0, 1, 0
+        });
+        Bitmap ret = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), bmp.getConfig());
+        Canvas canvas = new Canvas(ret);
+        Paint paint = new Paint();
+        paint.setColorFilter(new ColorMatrixColorFilter(cm));
+        canvas.drawBitmap(bmp, 0, 0, paint);
+        return ret;
+    }
+
     public static Bitmap convertPathToBitmap(String file) {
         return BitmapFactory.decodeFile(file);
     }
@@ -179,20 +150,6 @@ public class Util {
 
     public static void showToast(Context context, int id) {
         if (context != null) Toast.makeText(context, id, Toast.LENGTH_SHORT).show();
-    }
-
-    public static Bitmap decodeFromByte(byte[] bytes) {
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-    }
-
-    public static byte[] convertBitmapToByte(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return stream.toByteArray();
-    }
-
-    public static Bitmap getBitmapFromImv(ImageView imageView) {
-        return ((BitmapDrawable) imageView.getDrawable()).getBitmap();
     }
 }
 

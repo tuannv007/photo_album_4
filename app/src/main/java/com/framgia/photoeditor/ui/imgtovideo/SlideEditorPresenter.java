@@ -1,7 +1,6 @@
 package com.framgia.photoeditor.ui.imgtovideo;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Environment;
 
 import com.facebook.share.ShareApi;
@@ -39,17 +38,6 @@ public class SlideEditorPresenter implements SlideEditorContract.Presenter {
         mContext = context;
         mView = view;
         mFfmpeg = FFmpeg.getInstance(mContext);
-    }
-
-    @Override
-    public boolean saveImage(Bitmap bitmap) {
-        return false;
-        //// TODO: 1/13/17
-    }
-
-    @Override
-    public void handleSave(Bitmap bitmap) {
-        // TODO: 1/13/17 check status save image
     }
 
     @Override

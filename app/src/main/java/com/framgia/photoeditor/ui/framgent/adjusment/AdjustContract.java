@@ -2,7 +2,6 @@ package com.framgia.photoeditor.ui.framgent.adjusment;
 
 import android.graphics.Bitmap;
 
-import com.framgia.photoeditor.ui.base.BasePresenter;
 import com.framgia.photoeditor.ui.base.BaseView;
 
 /**
@@ -16,8 +15,9 @@ public interface AdjustContract {
         void hideProgressDialog();
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter {
         void convertImgBlackWhite(Bitmap bitmap);
-        void setBitmapContrast(Bitmap bitmap, int index);
+        void setBitmapContrast(Bitmap bitmap, float index);
+        void setBitmapHue(Bitmap mBitmap, int progress, float v, float v1);
     }
 }

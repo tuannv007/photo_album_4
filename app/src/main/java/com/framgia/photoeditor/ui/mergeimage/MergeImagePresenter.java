@@ -16,11 +16,6 @@ public class MergeImagePresenter implements MergeImageContract.Presenter {
     }
 
     @Override
-    public boolean saveImage(Bitmap bitmap) {
-        return false;
-    }
-
-    @Override
     public void handleSave(Bitmap bitmap) {
         if (Util.saveImage(bitmap)) mView.saveSuccess();
         else mView.saveError();

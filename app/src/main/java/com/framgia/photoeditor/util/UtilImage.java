@@ -21,10 +21,15 @@ import java.io.IOException;
 public class UtilImage {
     private static final int ANGLE_0 = 0;
     private static final int ANGLE_90 = 90;
-    private static final int ANGLE_180 = 100;
+    private static final int ANGLE_180 = 180;
     private static final int ANGLE_270 = 270;
     private static final int HALF_PROGRESS = 50;
     private static final int MAX_LIGHT_250 = 255;
+    private static final int MAX_PROGRESS = 100;
+    private static final float MAX_COLOR_HUE = 180f;
+    private static final float COLOR_HUE_R = 0.213f;
+    private static final float COLOR_HUE_G = 0.715f;
+    private static final float COLOR_HUE_B = 0.072f;
 
     public static Bitmap decodeBitmap(String path, int reqWidth, int reqHeight) throws IOException {
         int angle;
@@ -118,6 +123,37 @@ public class UtilImage {
         paint.setColorFilter(new ColorMatrixColorFilter(cm));
         canvas.drawBitmap(bitmap, 0, 0, paint);
         return bitmapResult;
+    }
+
+    public static Bitmap changeHue(Bitmap bitmap, float value) {
+        float hue = (value - HALF_PROGRESS) * MAX_COLOR_HUE / MAX_PROGRESS;
+        hue = cleanValue(hue, MAX_COLOR_HUE) / MAX_COLOR_HUE * (float) Math.PI;
+        float cosVal = (float) Math.cos(hue);
+        float sinVal = (float) Math.sin(hue);
+        Bitmap bitmapResult = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        float[] mat = new float[]{
+            COLOR_HUE_R + cosVal * (1 - COLOR_HUE_R) + sinVal * (-COLOR_HUE_R),
+            COLOR_HUE_G + cosVal * (-COLOR_HUE_G) + sinVal * (-COLOR_HUE_G),
+            COLOR_HUE_B + cosVal * (-COLOR_HUE_B) + sinVal * (1 - COLOR_HUE_B), 0, 0,
+            COLOR_HUE_R + cosVal * (-COLOR_HUE_R) + sinVal * (0.143f),
+            COLOR_HUE_G + cosVal * (1 - COLOR_HUE_G) + sinVal * (0.140f),
+            COLOR_HUE_B + cosVal * (-COLOR_HUE_B) + sinVal * (-0.283f), 0, 0,
+            COLOR_HUE_R + cosVal * (-COLOR_HUE_R) + sinVal * (-(1 - COLOR_HUE_R)),
+            COLOR_HUE_G + cosVal * (-COLOR_HUE_G) + sinVal * (COLOR_HUE_G),
+            COLOR_HUE_B + cosVal * (1 - COLOR_HUE_B) + sinVal * (COLOR_HUE_B), 0, 0,
+            0f, 0f, 0f, 1f, 0f,
+            0f, 0f, 0f, 0f, 1f
+        };
+        ColorMatrix cm = new ColorMatrix(mat);
+        Canvas canvas = new Canvas(bitmapResult);
+        Paint paint = new Paint();
+        paint.setColorFilter(new ColorMatrixColorFilter(cm));
+        canvas.drawBitmap(bitmapResult, 0, 0, paint);
+        return bitmapResult;
+    }
+
+    private static float cleanValue(float p_val, float p_limit) {
+        return Math.min(p_limit, Math.max(-p_limit, p_val));
     }
 
     public static Point getDisplaySize(FragmentActivity activity) {
