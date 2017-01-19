@@ -2,6 +2,7 @@ package com.framgia.photoeditor.ui.framgent;
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,40 +15,28 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.framgia.photoeditor.R;
+import com.framgia.photoeditor.ui.base.FragmentView;
+import com.framgia.photoeditor.ui.editimage.EditImageActivity;
 import com.framgia.photoeditor.ui.widget.HighLightDrawable;
-import com.framgia.photoeditor.util.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.framgia.photoeditor.util.Constant.Bundle.BUNDLE_BITMAP;
 import static com.framgia.photoeditor.util.UtilImage.centerBitmap;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HighlightFragment extends Fragment implements View.OnTouchListener {
+public class HighlightFragment extends Fragment implements View.OnTouchListener, FragmentView {
     private HighLightDrawable mHighLightDrawable;
     private Point mFingerPoint = new Point(200, 200);
     @BindView(R.id.image_edit)
     ImageView mImageEdit;
     private Bitmap mBitmap;
+    private EventBackToActivity mEventBackToActivity;
 
-    public static HighlightFragment newInstance(Bitmap bitmap) {
-        HighlightFragment fragment = new HighlightFragment();
-        byte[] bytes = Util.convertBitmapToByte(bitmap);
-        Bundle bundle = new Bundle();
-        bundle.putByteArray(BUNDLE_BITMAP, bytes);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    private void getDataFromActivity() {
-        Bundle bundle = getArguments();
-        if (bundle == null) return;
-        byte[] bytes = bundle.getByteArray(BUNDLE_BITMAP);
-        if (bytes == null) return;
-        mBitmap = Util.decodeFromByte(bytes);
+    public static HighlightFragment newInstance() {
+        return new HighlightFragment();
     }
 
     @Override
@@ -55,12 +44,12 @@ public class HighlightFragment extends Fragment implements View.OnTouchListener 
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_highlight, container, false);
         ButterKnife.bind(this, view);
-        getDataFromActivity();
         start();
         return view;
     }
 
     public void start() {
+        mBitmap = EditImageActivity.sBitmap;
         doHighlightImage();
         mImageEdit.setOnTouchListener(this);
     }
@@ -76,7 +65,6 @@ public class HighlightFragment extends Fragment implements View.OnTouchListener 
                 mImageEdit.requestLayout();
                 mHighLightDrawable =
                     new HighLightDrawable(getResources(), mBitmap, mFingerPoint);
-                //set callback when drawable is invalidated
                 mHighLightDrawable.setCallback(new Drawable.Callback() {
                     @Override
                     public void invalidateDrawable(@NonNull Drawable drawable) {
@@ -113,5 +101,20 @@ public class HighlightFragment extends Fragment implements View.OnTouchListener 
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void saveBitmap() {
+        EditImageActivity.sBitmap = ((BitmapDrawable) mImageEdit.getDrawable()).getBitmap();
+        if (mEventBackToActivity != null) mEventBackToActivity.backToActivity();
+    }
+
+    @Override
+    public void setEventBackToActivity(EventBackToActivity event) {
+        mEventBackToActivity = event;
+    }
+
+    public interface EventBackToActivity {
+        void backToActivity();
     }
 }

@@ -2,6 +2,7 @@ package com.framgia.photoeditor.ui.framgent.orientation;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
@@ -11,41 +12,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.framgia.photoeditor.R;
-import com.framgia.photoeditor.util.Util;
+import com.framgia.photoeditor.ui.base.FragmentView;
+import com.framgia.photoeditor.ui.editimage.EditImageActivity;
+import com.framgia.photoeditor.ui.framgent.HighlightFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.framgia.photoeditor.util.Constant.Bundle.BUNDLE_BITMAP;
-
 /**
  * Created by nhahv on 1/17/2017.
  * <></>
  */
-public class OrientationFragment extends Fragment implements OrientationContract.View {
+public class OrientationFragment extends Fragment
+    implements OrientationContract.View, FragmentView {
     private OrientationPresenter mPresenter;
     private final int ANGLE_ROTATE = 90;
     private Bitmap mBitmap;
     @BindView(R.id.image_orientation)
     ImageView mImageEdit;
+    private HighlightFragment.EventBackToActivity mEventBackToActivity;
 
-    public static OrientationFragment newInstance(Bitmap bitmap) {
-        OrientationFragment fragment = new OrientationFragment();
-        byte[] bytes = Util.convertBitmapToByte(bitmap);
-        Bundle bundle = new Bundle();
-        bundle.putByteArray(BUNDLE_BITMAP, bytes);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    private void getDataFromActivity() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            byte[] bytes = bundle.getByteArray(BUNDLE_BITMAP);
-            if (bytes == null) return;
-            mBitmap = Util.decodeFromByte(bytes);
-        }
+    public static OrientationFragment newInstance() {
+        return new OrientationFragment();
     }
 
     @Override
@@ -53,14 +42,19 @@ public class OrientationFragment extends Fragment implements OrientationContract
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_orientation, container, false);
         ButterKnife.bind(this, view);
-        getDataFromActivity();
         mPresenter = new OrientationPresenter(this);
         return view;
     }
 
     @Override
     public void start() {
+        mBitmap = EditImageActivity.sBitmap;
         mImageEdit.setImageBitmap(mBitmap);
+    }
+
+    @Override
+    public void setEventBackToActivity(HighlightFragment.EventBackToActivity event) {
+        mEventBackToActivity = event;
     }
 
     @Override
@@ -113,5 +107,11 @@ public class OrientationFragment extends Fragment implements OrientationContract
     @OnClick(R.id.image_rotate_right)
     void clickRotateRight() {
         rotateRight();
+    }
+
+    @Override
+    public void saveBitmap() {
+        EditImageActivity.sBitmap = ((BitmapDrawable) mImageEdit.getDrawable()).getBitmap();
+        if (mEventBackToActivity != null) mEventBackToActivity.backToActivity();
     }
 }

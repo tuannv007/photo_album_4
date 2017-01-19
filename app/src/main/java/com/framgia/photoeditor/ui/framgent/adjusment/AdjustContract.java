@@ -12,9 +12,13 @@ public interface AdjustContract {
     interface View extends BaseView {
         void updateImgBlackWhite(Bitmap bitmap);
         void hideButtonBlackWhite();
+        void updateImage(Bitmap bitmap);
+        void showProgressDialog();
+        void hideProgressDialog();
     }
 
     interface Presenter extends BasePresenter {
         void convertImgBlackWhite(Bitmap bitmap);
+        void setBitmapContrast(Bitmap bitmap, int index);
     }
 }

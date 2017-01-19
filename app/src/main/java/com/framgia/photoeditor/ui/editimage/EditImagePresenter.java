@@ -2,7 +2,6 @@ package com.framgia.photoeditor.ui.editimage;
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.framgia.photoeditor.util.Util;
@@ -34,15 +33,11 @@ public class EditImagePresenter implements EditImageContract.Presenter {
         return Util.saveImage(bitmap);
     }
 
-
-
     @Override
     public void handleSave(Bitmap bitmap) {
         if (saveImage(bitmap)) mView.saveOnSuccess();
         else mView.saveError();
     }
-
-
 
     @Override
     public void bitmapFromFile() {
