@@ -15,6 +15,7 @@ import java.util.List;
 public interface ImageFolderContract {
     interface View extends BaseView {
         void pickSingleImage(String string);
+        void pickSingleImageMerge(String string);
         void pickMultipleImage(ArrayList<String> stringArrayList);
         void updateListImageFolder(List<LocalImageFolder> imageFolders);
         boolean checkCameraHardware(Context context);

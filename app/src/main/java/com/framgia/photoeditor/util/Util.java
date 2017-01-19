@@ -4,6 +4,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.widget.Toast;
 
@@ -84,15 +87,11 @@ public class Util {
                 pixelHSV[1] = pixelHSV[1] + settingSat;
                 if (pixelHSV[1] < Constant.MIN_PIXEL_COLOR_HUE) {
                     pixelHSV[1] = Constant.MIN_PIXEL_COLOR_HUE;
-                } else if (pixelHSV[1] > 1.0f) {
-                    pixelHSV[1] = 1.0f;
-                }
+                } else if (pixelHSV[1] > 1.0f) pixelHSV[1] = 1.0f;
                 pixelHSV[2] = pixelHSV[2] + settingVal;
                 if (pixelHSV[2] < Constant.MIN_PIXEL_COLOR_HUE) {
                     pixelHSV[2] = Constant.MIN_PIXEL_COLOR_HUE;
-                } else if (pixelHSV[2] > 1.0f) {
-                    pixelHSV[2] = 1.0f;
-                }
+                } else if (pixelHSV[2] > 1.0f) pixelHSV[2] = 1.0f;
                 mapDestColor[index] = Color.HSVToColor(pixelHSV);
                 index++;
             }
@@ -114,31 +113,26 @@ public class Util {
                 R = Color.red(pixel);
                 R = (int) (((((R / Constant.MAX_PIXEL_COLOR) - 0.5) * contrast) + 0.5) *
                     Constant.MAX_PIXEL_COLOR);
-                if (R < Constant.MIN_PIXEL_COLOR) {
-                    R = Constant.MAX_PIXEL_INTERGER;
-                } else if (R > Constant.MAX_PIXEL_COLOR) {
-                    R = Constant.MAX_PIXEL_INTERGER;
-                }
+                if (R < Constant.MIN_PIXEL_COLOR) R = Constant.MAX_PIXEL_INTERGER;
+                else if (R > Constant.MAX_PIXEL_COLOR) R = Constant.MAX_PIXEL_INTERGER;
                 G = Color.red(pixel);
                 G = (int) (((((G / Constant.MAX_PIXEL_COLOR) - 0.5) * contrast) + 0.5) *
                     Constant.MAX_PIXEL_COLOR);
-                if (G < Constant.MIN_PIXEL_COLOR) {
-                    G = Constant.MAX_PIXEL_INTERGER;
-                } else if (G > Constant.MAX_PIXEL_COLOR) {
-                    G = Constant.MAX_PIXEL_INTERGER;
-                }
+                if (G < Constant.MIN_PIXEL_COLOR) G = Constant.MAX_PIXEL_INTERGER;
+                else if (G > Constant.MAX_PIXEL_COLOR) G = Constant.MAX_PIXEL_INTERGER;
                 B = Color.red(pixel);
                 B = (int) (((((B / Constant.MAX_PIXEL_COLOR) - 0.5) * contrast) + 0.5) *
                     Constant.MAX_PIXEL_COLOR);
-                if (B < Constant.MIN_PIXEL_COLOR) {
-                    B = Constant.MAX_PIXEL_INTERGER;
-                } else if (B > Constant.MAX_PIXEL_COLOR) {
-                    B = Constant.MAX_PIXEL_INTERGER;
-                }
+                if (B < Constant.MIN_PIXEL_COLOR) B = Constant.MAX_PIXEL_INTERGER;
+                else if (B > Constant.MAX_PIXEL_COLOR) B = Constant.MAX_PIXEL_INTERGER;
                 bmOut.setPixel(x, y, Color.argb(A, R, G, B));
             }
         }
         return bmOut;
+    }
+
+    public static Bitmap convertPathToBitmap(String file) {
+        return BitmapFactory.decodeFile(file);
     }
 
     public static String getTime() {
