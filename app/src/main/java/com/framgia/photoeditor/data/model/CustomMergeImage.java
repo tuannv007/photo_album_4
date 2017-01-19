@@ -118,6 +118,7 @@ public class CustomMergeImage extends ImageView {
         mRectSecondImage.set(0, sHeight / 2, sWidth, sHeight);
         canvas.drawBitmap(mBitmapOne, null, mRectFirstImage, mPaint);
         canvas.drawBitmap(mBitmapTwo, null, mRectSecondImage, mPaint);
+        canvas.scale(sWidth, sHeight);
     }
 
     private void drawerThree(Canvas canvas) {

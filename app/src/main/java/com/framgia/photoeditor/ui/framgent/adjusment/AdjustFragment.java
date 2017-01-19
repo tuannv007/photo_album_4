@@ -162,6 +162,7 @@ public class AdjustFragment extends Fragment implements AdjustContract.View, Fra
         if (mProgressDialog != null && mProgressDialog.isShowing()) mProgressDialog.dismiss();
     }
 
+
     @OnClick(
         {R.id.linear_contrast, R.id.linear_hue, R.id.linear_brightness, R.id.linear_black_white})
     void onClick(View view) {

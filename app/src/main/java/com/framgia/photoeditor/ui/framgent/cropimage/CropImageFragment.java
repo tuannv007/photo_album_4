@@ -16,6 +16,7 @@ import com.framgia.photoeditor.ui.editimage.EditImageActivity;
 import com.framgia.photoeditor.ui.framgent.HighlightFragment;
 import com.framgia.photoeditor.ui.widget.crop.CropBorderView;
 import com.framgia.photoeditor.ui.widget.crop.CropImageView;
+import com.framgia.photoeditor.util.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,5 +74,12 @@ public class CropImageFragment extends Fragment implements CropImageContract.Vie
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins((int) clipRectF.left, (int) clipRectF.top, 0, 0);
         mCropImageView.setLayoutParams(layoutParams);
+    }
+
+    @Override
+    public void saveImage() {
+        cropImage();
+        Util.saveImage(Util.getBitmapFromImv(mCropImageView));
+        Util.showToast(getActivity(), R.string.save_sucsess);
     }
 }

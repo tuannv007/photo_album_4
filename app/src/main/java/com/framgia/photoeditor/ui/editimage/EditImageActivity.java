@@ -151,12 +151,6 @@ public class EditImageActivity extends AppCompatActivity implements EditImageCon
     }
 
     @Override
-    public void openCamera() {
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, REQUEST_CODE_CAMERA);
-    }
-
-    @Override
     public void saveOnSuccess() {
         Util.showToast(getApplicationContext(), R.string.save_sucsess);
     }
