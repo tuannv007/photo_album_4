@@ -9,7 +9,6 @@ import com.framgia.photoeditor.ui.base.BaseView;
 public interface CropImageContract {
     interface View extends BaseView {
         void cropImage();
-        void saveImage();
     }
 
     interface Presenter {

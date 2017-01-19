@@ -17,7 +17,6 @@ import com.framgia.photoeditor.ui.base.FragmentView;
 import com.framgia.photoeditor.ui.editimage.EditImageActivity;
 import com.framgia.photoeditor.ui.framgent.HighlightFragment;
 import com.framgia.photoeditor.util.Constant;
-import com.framgia.photoeditor.util.Util;
 import com.framgia.photoeditor.util.UtilImage;
 
 import butterknife.BindView;
@@ -29,7 +28,9 @@ import static com.framgia.photoeditor.util.Constant.Size.DATA_SIZE_SEEKBAR;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AdjustFragment extends Fragment implements AdjustContract.View, FragmentView {
+public class AdjustFragment extends Fragment
+    implements AdjustContract.View, FragmentView {
+    private static final float HALF_PROGRESS = 50f;
     @BindView(R.id.image_edit)
     ImageView mImageEdit;
     @BindView(R.id.linear_feature)
@@ -81,14 +82,18 @@ public class AdjustFragment extends Fragment implements AdjustContract.View, Fra
                 switch (mType) {
                     case Constant.TypeControl.TYPE_BRIGHTNESS:
                         mImageEdit.setImageBitmap(UtilImage
-                            .brightness(mBitmap, seekBar.getProgress(), seekBar.getProgress()));
+                            .brightness(mBitmap, seekBar.getProgress(),
+                                mSeekBarBrightness.getProgress()));
                         break;
                     case Constant.TypeControl.TYPE_CONTRAST:
-                        mPresenter.setBitmapContrast(mBitmap, seekBar.getProgress());
+                        showProgressDialog();
+                        float contrast = mSeekBarBrightness.getProgress() / HALF_PROGRESS;
+                        mPresenter.setBitmapContrast(mBitmap, contrast);
                         break;
                     case Constant.TypeControl.TYPE_HUE:
-                        mImageEdit.setImageBitmap(
-                            Util.updateHUE(mBitmap, seekBar.getProgress(), 0.1f, 0.1f));
+                        showProgressDialog();
+                        mPresenter
+                            .setBitmapHue(mBitmap, mSeekBarBrightness.getProgress(), 0.1f, 0.1f);
                         break;
                     default:
                         break;
@@ -103,7 +108,7 @@ public class AdjustFragment extends Fragment implements AdjustContract.View, Fra
     }
 
     @Override
-    public void updateImgBlackWhite(Bitmap bitmap) {
+    public void updateImgBlackWhite(final Bitmap bitmap) {
         mBitmapBlackWhite = bitmap;
     }
 

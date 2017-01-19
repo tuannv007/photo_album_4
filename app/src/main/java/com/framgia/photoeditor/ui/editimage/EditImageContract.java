@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 
 import com.framgia.photoeditor.data.model.Control;
-import com.framgia.photoeditor.ui.base.BasePresenter;
 import com.framgia.photoeditor.ui.base.BaseView;
 
 import java.util.List;
@@ -23,9 +22,7 @@ public interface EditImageContract {
         void updateImage(Bitmap bitmap);
     }
 
-    interface Presenter extends BasePresenter {
-        void handleSave(Bitmap bitmap);
+    interface Presenter {
         void bitmapFromFile();
-        void getBitmapBrightness(Bitmap bitmap, int index);
     }
 }

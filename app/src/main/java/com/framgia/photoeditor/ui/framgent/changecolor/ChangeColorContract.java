@@ -1,4 +1,4 @@
-package com.framgia.photoeditor.ui.changecolor;
+package com.framgia.photoeditor.ui.framgent.changecolor;
 
 import com.framgia.photoeditor.ui.base.BaseView;
 

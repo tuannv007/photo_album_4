@@ -21,7 +21,7 @@ import android.widget.LinearLayout;
 import com.framgia.photoeditor.R;
 import com.framgia.photoeditor.data.model.Control;
 import com.framgia.photoeditor.ui.base.FragmentView;
-import com.framgia.photoeditor.ui.changecolor.ChangeColorFragment;
+import com.framgia.photoeditor.ui.framgent.changecolor.ChangeColorFragment;
 import com.framgia.photoeditor.ui.framgent.HighlightFragment;
 import com.framgia.photoeditor.ui.framgent.adjusment.AdjustFragment;
 import com.framgia.photoeditor.ui.framgent.cropimage.CropImageFragment;

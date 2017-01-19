@@ -1,10 +1,8 @@
 package com.framgia.photoeditor.ui.imgtovideo;
 
 import android.net.Uri;
-import android.widget.VideoView;
 
 import com.framgia.photoeditor.data.model.Image;
-import com.framgia.photoeditor.ui.base.BasePresenter;
 import com.framgia.photoeditor.ui.base.BaseView;
 
 import java.io.File;
@@ -27,7 +25,7 @@ public interface SlideEditorContract {
         Uri getUriVideo();
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter {
         String[] scaleImage(Image image, int width, int height);
         String[] filterComplexQuery(List<Image> images, int width, int height);
         void deleteTempFile(String path);

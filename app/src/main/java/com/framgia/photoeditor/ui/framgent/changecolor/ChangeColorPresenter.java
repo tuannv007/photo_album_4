@@ -1,4 +1,4 @@
-package com.framgia.photoeditor.ui.changecolor;
+package com.framgia.photoeditor.ui.framgent.changecolor;
 
 /**
  * Created by tuanbg on 1/10/17.

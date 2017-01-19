@@ -1,13 +1,9 @@
 package com.framgia.photoeditor.ui.framgent.adjusment;
 
 import android.graphics.Bitmap;
-import android.graphics.Point;
-import android.os.AsyncTask;
 
 import com.framgia.photoeditor.util.Util;
 import com.framgia.photoeditor.util.UtilImage;
-
-import java.io.IOException;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -27,13 +23,31 @@ public class AdjustPresenter implements AdjustContract.Presenter {
 
     @Override
     public void convertImgBlackWhite(Bitmap bitmap) {
-        new ImgToBlackWhiteAsync().execute(bitmap);
+        Observable.just(Util.convertImageToBlackWhite(bitmap))
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Subscriber<Bitmap>() {
+                @Override
+                public void onNext(Bitmap bitmap) {
+                    if (bitmap == null) return;
+                    mView.updateImgBlackWhite(bitmap);
+                }
+
+                @Override
+                public void onCompleted() {
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
+                }
+            });
     }
 
     @Override
-    public void setBitmapContrast(Bitmap bitmap, int index) {
-        changeContrast(bitmap, index)
-            .subscribeOn(Schedulers.io())
+    public void setBitmapContrast(Bitmap bitmap, float index) {
+        Observable.just(Util.changeContrast(bitmap, index, 1))
+            .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Subscriber<Bitmap>() {
                 @Override
@@ -53,31 +67,26 @@ public class AdjustPresenter implements AdjustContract.Presenter {
             });
     }
 
-    public Observable<Bitmap> changeContrast(Bitmap bitmap, int index) {
-        return Observable.just(Util.createContrast(bitmap, index));
-    }
-
     @Override
-    public boolean saveImage(Bitmap bitmap) {
-        return false;
-        // TODO: 1/13/17  
-    }
+    public void setBitmapHue(Bitmap mBitmap, int progress, float v, float v1) {
+        Observable.just(UtilImage.changeHue(mBitmap, progress))
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Subscriber<Bitmap>() {
+                @Override
+                public void onNext(Bitmap bitmap) {
+                    if (bitmap == null) return;
+                    mView.updateImage(bitmap);
+                }
 
-    @Override
-    public void handleSave(Bitmap bitmap) {
-        // TODO: 1/13/17
-    }
+                @Override
+                public void onCompleted() {
+                }
 
-    public class ImgToBlackWhiteAsync extends AsyncTask<Bitmap, Void, Bitmap> {
-        @Override
-        protected Bitmap doInBackground(Bitmap... params) {
-            return Util.convertImageToBlackWhite(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            mView.updateImgBlackWhite(bitmap);
-        }
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
+                }
+            });
     }
 }
